@@ -1,3 +1,16 @@
+# 平平无奇
+# 一些好玩的项目合集
+#（几乎）完全由AI开发维护
+# 一个探索性实验
+# 探索AI Coding的极限
+
+# Contributors (all AI)
+- Design: https://www.motiff.cn/
+- Text2Image: https://www.klingai.com/
+- Chat: OpenAI API & 01AI API
+- Development: Cursor+Claude 3.5 Sonnet
+- Architecture: v0.dev/chat
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

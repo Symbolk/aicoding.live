@@ -91,7 +91,7 @@ export default {
     expand: "展开"
   },
   livebook: {
-    title: "让我们为哪个故事注入生命?",
+    title: "让我们为一个故事注入生命",
     pasteStory: "粘贴你的故事",
     pasteHere: "在此粘贴你的故事...",
     uploadFile: "上传文件",
