@@ -79,11 +79,12 @@ import {
 import { HuggingDog } from "./huggingdog"
 import { AskGitHub } from "./askgithub"
 import { LiveBook } from "./livebook"
-import { useState } from "react"
+import { useState, useRef, useCallback } from "react"
 import { useI18n } from "@/i18n/context"
 import { CommandMenu } from "./command-menu"
 import { Button } from "./ui/button"
 import { cn } from "@/lib/utils"
+import { Confetti } from '@/components/ui/confetti'
 
 // 定义页面类型
 type PageType = 'playground' | 'huggingdog' | 'askgithub' | 'livebook'
@@ -181,10 +182,47 @@ export function GamifyAI() {
   const [currentPage, setCurrentPage] = useState<PageType>('huggingdog')
   const { locale, setLocale, t } = useI18n()
   const [open, setOpen] = useState(false)
+  const confettiRef = useRef<any>(null)
 
+  // 触发 Confetti 效果的函数
+  const fireConfetti = useCallback(() => {
+    if (!confettiRef.current) return
+    
+    // 随机生成位置
+    const randomX = 0.2 + Math.random() * 0.6 // 在 0.2-0.8 之间，避免太靠边
+    const randomY = 0.2 + Math.random() * 0.3 // 在 0.2-0.5 之间，避免太靠上或太靠下
+    
+    // 第一波粒子
+    confettiRef.current.fire({
+      spread: 70,
+      startVelocity: 30,
+      particleCount: 100,
+      origin: { x: randomX, y: randomY }
+    })
+
+    // 延迟发射第二波粒子
+    setTimeout(() => {
+      confettiRef.current.fire({
+        spread: 90,
+        startVelocity: 45,
+        particleCount: 50,
+        origin: { x: randomX + 0.1, y: randomY - 0.1 }
+      })
+    }, 200)
+  }, [])
+
+  // 处理页面切换
+  const handlePageChange = useCallback((newPage: PageType) => {
+    if (newPage !== currentPage) {
+      setCurrentPage(newPage)
+      fireConfetti()
+    }
+  }, [currentPage, fireConfetti])
+
+  // 修改命令选择处理函数
   const handleCommandSelect = (value: string) => {
     if (value === 'huggingdog' || value === 'askgithub' || value === 'livebook') {
-      setCurrentPage(value as PageType)
+      handlePageChange(value as PageType)
     }
   }
 
@@ -229,6 +267,19 @@ export function GamifyAI() {
         setOpen={setOpen} 
         onSelect={handleCommandSelect} 
       />
+      <Confetti
+        ref={confettiRef}
+        style={{
+          position: 'fixed',
+          pointerEvents: 'none',
+          width: '100%',
+          height: '100%',
+          top: 0,
+          left: 0,
+          zIndex: 999
+        }}
+        manualstart
+      />
       <SidebarProvider>
         <Sidebar variant="inset">
           <SidebarHeader>
@@ -260,7 +311,7 @@ export function GamifyAI() {
                         "cursor-pointer",
                         currentPage === item.url ? 'bg-sidebar-accent' : ''
                       )}
-                      onClick={() => setCurrentPage(item.url as PageType)}
+                      onClick={() => handlePageChange(item.url as PageType)}
                     >
                       <a>
                         <item.icon />
@@ -318,7 +369,7 @@ export function GamifyAI() {
                         asChild 
                         tooltip={t(`${item.title.toLowerCase()}.title`)}
                         className={currentPage === 'playground' && item.title === 'Playground' ? 'bg-sidebar-accent' : ''}
-                        onClick={() => item.title === 'Playground' && setCurrentPage('playground')}
+                        onClick={() => item.title === 'Playground' && handlePageChange('playground')}
                       >
                         <a>
                           <item.icon />
@@ -488,7 +539,7 @@ export function GamifyAI() {
               <Breadcrumb>
                 <BreadcrumbList>
                   <BreadcrumbItem>
-                    <BreadcrumbLink href="#" onClick={() => setCurrentPage('playground')}>
+                    <BreadcrumbLink href="#" onClick={() => handlePageChange('playground')}>
                       {currentPage === 'playground' ? t('common.platform') : t('common.projects')}
                     </BreadcrumbLink>
                   </BreadcrumbItem>
