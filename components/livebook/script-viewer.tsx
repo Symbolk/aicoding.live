@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { generateImageWithProgress, type ImageGenerationProgress } from '@/lib/klingai'
 import { XCircle, Check, Loader2, Circle } from 'lucide-react'
+import { TypeAnimation } from 'react-type-animation'
 
 interface ScriptItem {
   id: string
@@ -57,7 +58,7 @@ function groupMessagesIntoScenes(scenes: ScriptItem[]): ChatScene[] {
   return chatScenes
 }
 
-// 进度指示器组件
+// 度指示器组件
 const ExecutionStatus = ({ status, progress }: { 
   status: ImageGenerationProgress['status'],
   progress: ImageGenerationProgress
@@ -152,8 +153,12 @@ const SceneBackground = memo(({ content, onProgress }: {
       
       try {
         isGeneratingRef.current = true
+        setImageProgress({ status: 'submitting', progress: 0 })
+        onProgress({ status: 'submitting', progress: 0 })
+        
         const prompt = `${content}, cinematic scene, detailed environment, atmospheric lighting, 4k quality`
         
+        // 立即开始生成图片
         await generateImageWithProgress(prompt, (progress) => {
           if (!isActive) return
           setImageProgress(progress)
@@ -168,20 +173,34 @@ const SceneBackground = memo(({ content, onProgress }: {
           }
           setImageProgress(errorProgress)
           onProgress(errorProgress)
+          console.error('Error generating image:', error)
         }
       } finally {
         isGeneratingRef.current = false
       }
     }
 
+    // 立即执行图片生成
     generateImage()
 
     return () => {
       isActive = false
     }
-  }, [content, onProgress])
+  }, [content, onProgress]) // 依赖项保持不变
 
-  return imageProgress.url ? (
+  // 添加加载状态的显示
+  if (!imageProgress.url) {
+    return (
+      <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+          <span className="text-sm text-gray-500">生成场景图片中...</span>
+        </div>
+      </div>
+    )
+  }
+
+  return (
     <div className="absolute inset-0 z-0">
       <img
         src={imageProgress.url}
@@ -189,7 +208,7 @@ const SceneBackground = memo(({ content, onProgress }: {
         className="w-full h-full object-cover opacity-60"
       />
     </div>
-  ) : null
+  )
 })
 
 SceneBackground.displayName = 'SceneBackground'
@@ -199,22 +218,23 @@ const ChatBubble = memo(({ message }: { message: ScriptItem }) => {
     triggerOnce: true,
     threshold: 0.1,
   })
+  const [hasTyped, setHasTyped] = useState(false)
 
   const getBubbleStyle = () => {
     switch (message.type) {
       case 'scene':
-        return 'bg-gradient-to-r from-gray-900/70 to-gray-800/70 text-white backdrop-blur-md border-white/10'
+        return 'bg-gray-100 text-gray-800'
       case 'dialogue':
         if (message.character === '麦哲') {
-          return 'bg-gradient-to-r from-blue-600/70 to-blue-500/70 text-white backdrop-blur-md border-white/10'
+          return 'bg-blue-50 text-blue-800'
         }
-        return 'bg-gradient-to-r from-green-600/70 to-green-500/70 text-white backdrop-blur-md border-white/10'
+        return 'bg-green-50 text-green-800'
       case 'narration':
-        return 'bg-gradient-to-r from-gray-800/70 to-gray-700/70 text-white italic text-sm backdrop-blur-md border-white/10'
+        return 'bg-gray-50 text-gray-700 italic text-sm'
       case 'action':
-        return 'bg-gradient-to-r from-yellow-600/70 to-yellow-500/70 text-white italic text-sm backdrop-blur-md border-white/10'
+        return 'bg-yellow-50 text-yellow-800 italic text-sm'
       default:
-        return 'bg-gradient-to-r from-white/70 to-gray-100/70 text-white backdrop-blur-md border-white/10'
+        return 'bg-white text-gray-800'
     }
   }
 
@@ -238,7 +258,20 @@ const ChatBubble = memo(({ message }: { message: ScriptItem }) => {
           </div>
         )}
         <div className={`p-4 rounded-lg border shadow-lg ${getBubbleStyle()}`}>
-          {message.content}
+          {inView ? (
+            <TypeAnimation
+              sequence={[
+                message.content,
+                () => setHasTyped(true)
+              ]}
+              wrapper="div"
+              speed={50}
+              cursor={!hasTyped}
+              className="whitespace-pre-wrap"
+            />
+          ) : (
+            message.content
+          )}
         </div>
       </div>
     </motion.div>
@@ -252,7 +285,30 @@ const SceneContent = memo(({ scene, onProgressChange }: {
   onProgressChange: (progress: ImageGenerationProgress) => void
 }) => {
   const sceneMessage = scene.messages.find(msg => msg.type === 'scene')
+  const [visibleMessages, setVisibleMessages] = useState<ScriptItem[]>([])
   
+  useEffect(() => {
+    const timeouts: NodeJS.Timeout[] = []
+    setVisibleMessages([])
+    
+    if (sceneMessage) {
+      // 立即显示场景描述并触发图片生成
+      setVisibleMessages([sceneMessage])
+      
+      const otherMessages = scene.messages.filter(msg => msg !== sceneMessage)
+      otherMessages.forEach((message, index) => {
+        const timeout = setTimeout(() => {
+          setVisibleMessages(prev => [...prev, message])
+        }, (index + 1) * 1000)
+        timeouts.push(timeout)
+      })
+    }
+
+    return () => {
+      timeouts.forEach(timeout => clearTimeout(timeout))
+    }
+  }, [scene.id, sceneMessage])
+
   if (!sceneMessage) {
     console.warn('No scene description found in:', scene)
     return null
@@ -266,11 +322,11 @@ const SceneContent = memo(({ scene, onProgressChange }: {
       className="absolute inset-0"
     >
       <SceneBackground 
-        key={scene.id} 
+        key={`${scene.id}-${sceneMessage.id}`} // 添加更具体的 key
         content={sceneMessage.content} 
         onProgress={onProgressChange}
       />
-      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-white/90 to-transparent pointer-events-none" />
       <div 
         className="absolute inset-x-0 bottom-0 h-1/3 overflow-y-auto overscroll-contain"
         style={{
@@ -279,7 +335,7 @@ const SceneContent = memo(({ scene, onProgressChange }: {
         }}
       >
         <div className="relative z-10 p-4 space-y-4 min-h-full">
-          {scene.messages.map((message) => (
+          {visibleMessages.map((message) => (
             <ChatBubble key={message.id} message={message} />
           ))}
         </div>
@@ -409,16 +465,16 @@ export function ScriptViewer({ title, scenes }: { title: string, scenes: ScriptI
   const chatContainerRef = useRef<HTMLDivElement>(null)
 
   return (
-    <div className="h-[calc(100vh-2rem)] bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900 p-4 pb-2 overflow-hidden">
-      <div className="h-full max-w-6xl mx-auto overflow-hidden rounded-lg shadow-xl border border-white/10 backdrop-blur-md bg-white/10">
+    <div className="h-[calc(100vh-2rem)] bg-white p-4 pb-2 overflow-hidden">
+      <div className="h-full max-w-6xl mx-auto overflow-hidden rounded-lg shadow-md border border-gray-200">
         {/* 窗口标题栏 */}
-        <div className="bg-white/10 backdrop-blur-md px-4 py-2 border-b border-white/20 flex items-center justify-between">
+        <div className="bg-gray-50 px-4 py-2 border-b border-gray-200 flex items-center justify-between">
           <div className="flex gap-2">
-            <div className="w-3 h-3 rounded-full bg-red-500/80 backdrop-blur-sm" />
-            <div className="w-3 h-3 rounded-full bg-yellow-500/80 backdrop-blur-sm" />
-            <div className="w-3 h-3 rounded-full bg-green-500/80 backdrop-blur-sm" />
+            <div className="w-3 h-3 rounded-full bg-red-500/80" />
+            <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+            <div className="w-3 h-3 rounded-full bg-green-500/80" />
           </div>
-          <h1 className="text-sm font-medium text-white/90">{title}</h1>
+          <h1 className="text-sm font-medium text-gray-700">{title}</h1>
           <div className="flex-1 max-w-2xl ml-4">
             {generationStatus.status !== 'idle' && (
               <ExecutionStatus 
@@ -431,19 +487,19 @@ export function ScriptViewer({ title, scenes }: { title: string, scenes: ScriptI
 
         <div className="flex h-[calc(100%-2.5rem)]">
           {/* 场景列表侧边栏 */}
-          <div className="w-72 border-r border-white/20 bg-white/5 backdrop-blur-md overflow-y-auto">
+          <div className="w-72 border-r border-gray-200 bg-gray-50 overflow-y-auto">
             {chatScenes.map((scene) => (
               <button
                 key={scene.id}
                 onClick={() => handleSceneChange(scene.id)}
-                className={`w-full px-4 py-3 text-left hover:bg-white/10 transition-colors flex items-center gap-3
+                className={`w-full px-4 py-3 text-left hover:bg-gray-100 transition-colors flex items-center gap-3
                   ${currentSceneId === scene.id 
-                    ? 'bg-white/20 border-l-4 border-purple-500' 
+                    ? 'bg-gray-100 border-l-4 border-blue-500' 
                     : 'border-l-4 border-transparent'}`}
               >
                 <SceneThumbnail scene={scene} />
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-medium text-sm truncate text-white/90">
+                  <h3 className="font-medium text-sm truncate text-gray-700">
                     {scene.title}
                   </h3>
                 </div>
@@ -454,9 +510,8 @@ export function ScriptViewer({ title, scenes }: { title: string, scenes: ScriptI
           {/* 聊天内容区域 */}
           <div 
             ref={chatContainerRef}
-            className="flex-1 relative isolate bg-gradient-to-b from-gray-900/50 to-purple-900/50"
+            className="flex-1 relative isolate bg-white"
           >
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-500/5 to-purple-500/10 pointer-events-none" />
             <AnimatePresence mode="wait">
               {currentScene && (
                 <SceneContent 

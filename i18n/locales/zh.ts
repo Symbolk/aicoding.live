@@ -28,9 +28,9 @@ export default {
     settings: "设置"
   },
   projects: {
-    huggingdog: "抱抱狗",
+    huggingdog: "抱抱狗HuggingDog",
     askgithub: "问问GitHub",
-    livebook: "活书",
+    livebook: "活书LiveBook",
     designEngineering: "设计工程",
     salesMarketing: "销售与市场",
     travel: "旅行"
