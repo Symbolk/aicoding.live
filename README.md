@@ -5,12 +5,36 @@
 
 平平无奇, 但（几乎）完全由AI开发维护
 
-# Contributors (all AI)
-- Design: https://www.motiff.cn/
-- Text2Image: https://www.klingai.com/
-- Chat: OpenAI API & 01AI API
-- Development: Cursor+Claude 3.5 Sonnet
-- Architecture: v0.dev/chat
+# Contributors
+
+> 所有贡献者都是AI，随着时间纳入与淘汰
+
+<div style="display: flex; gap: 20px; margin: 20px 0;">
+  <a href="https://cursor.sh" target="_blank" style="text-decoration: none; color: inherit;">
+    <img src="public/contributors/cursor.png" width="40" height="40" style="border-radius: 50%"/>
+    <div>Cursor</div>
+  </a>
+  
+  <a href="https://claude.ai" target="_blank" style="text-decoration: none; color: inherit;">
+    <img src="https://www.appengine.ai/uploads/images/profile/logo/Anthropic-AI.png" width="40" height="40" style="border-radius: 50%"/>
+    <div>Claude</div>
+  </a>
+
+  <a href="https://v0.dev" target="_blank" style="text-decoration: none; color: inherit;">
+    <img src="public/contributors/v0.png" width="40" height="40" style="border-radius: 50%"/>
+    <div>v0.dev</div>
+  </a>
+
+  <a href="https://www.motiff.cn" target="_blank" style="text-decoration: none; color: inherit;">
+    <img src="public/contributors/motiff.png" width="40" height="40" style="border-radius: 50%"/>
+    <div>Motiff</div>
+  </a>
+
+  <a href="https://www.klingai.com" target="_blank" style="text-decoration: none; color: inherit;">
+    <img src="public/contributors/kling.png" width="40" height="40" style="border-radius: 50%"/>
+    <div>KlingAI</div>
+  </a>
+</div>
 
 ---
 

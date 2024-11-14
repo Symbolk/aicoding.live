@@ -25,6 +25,8 @@ import {
   SquareTerminal,
   Trash2,
   Globe,
+  Dog,
+  Network,
 } from "lucide-react"
 
 import {
@@ -116,7 +118,7 @@ const data = {
     {
       title: "Models",
       url: "#",
-      icon: Bot,
+      icon: Network,
       items: [
         {
           title: "Genesis",
@@ -160,7 +162,7 @@ const data = {
     {
       name: "HuggingDog",
       url: "huggingdog",
-      icon: Bot,
+      icon: Dog,
     },
     {
       name: "AskGitHub",

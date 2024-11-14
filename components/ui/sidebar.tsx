@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
-import { PanelLeft } from "lucide-react"
+import { PanelLeft, Dog, Network } from "lucide-react"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
@@ -18,6 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { Contributors } from "@/components/contributors"
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -374,8 +375,9 @@ const SidebarFooter = React.forwardRef<
       ref={ref}
       data-sidebar="footer"
       className={cn("flex flex-col gap-2 p-2", className)}
-      {...props}
-    />
+    >
+      {props.children}
+    </div>
   )
 })
 SidebarFooter.displayName = "SidebarFooter"
@@ -407,8 +409,10 @@ const SidebarContent = React.forwardRef<
         "flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden",
         className
       )}
-      {...props}
-    />
+    >
+      <Contributors />
+      {props.children}
+    </div>
   )
 })
 SidebarContent.displayName = "SidebarContent"
