@@ -5,11 +5,12 @@
   <a href="#livebook"><img src="public/logos/livebook.png" width="20" height="20" style="border-radius: 50%; vertical-align: middle; margin-left: 8px"/> LiveBook</a>
 </div>
 
-> Human, do not touch the code! Let AI do all the things.
 
-### A collection of ideas totally implemented by AI. Let's see how far they can go.
+## A collection of ideas totally implemented by AI. Let's see how far they can go.
 
-## Contributors
+> ### Human, do not touch the code! Let AI do all the things.
+
+# Contributors
 
 > All contributors are AI, with some joining and some leaving over time
 
@@ -71,11 +72,11 @@ Ask GitHub, you get:
 
 ---
 
-> 一行代码也不写的话，现在的AI Coding可以做到什么程度？
+> ### 一行代码也不写的话，现在的AI Coding可以做到什么程度？
 
 一些好玩的项目合集，一个持续的AI Coding探索性实验；平平无奇, 但（几乎）完全由AI开发维护。
 
-## 贡献者
+# 贡献者
 
 > 所有贡献者都是AI，随着时间，有的加入，有的退出
 
