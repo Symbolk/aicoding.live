@@ -6,6 +6,7 @@ import { useInView } from 'react-intersection-observer'
 import { generateImageWithProgress, type ImageGenerationProgress } from '@/lib/klingai'
 import { XCircle, Check, Loader2, Circle } from 'lucide-react'
 import { TypeAnimation } from 'react-type-animation'
+import { useI18n } from '@/i18n/context'
 
 interface ScriptItem {
   id: string
@@ -59,14 +60,15 @@ function groupMessagesIntoScenes(scenes: ScriptItem[]): ChatScene[] {
 }
 
 // 度指示器组件
-const ExecutionStatus = ({ status, progress }: { 
-  status: ImageGenerationProgress['status'],
-  progress: ImageGenerationProgress
+const ExecutionStatus = ({ status }: { 
+  status: ImageGenerationProgress['status']
 }) => {
+  const { t } = useI18n()
+  
   const stages = [
-    { key: 'submitting' as const, text: '场景渲染启动！' },
-    { key: 'generating' as const, text: '场景渲染中...' },
-    { key: 'success' as const, text: '场景渲染完成!' }
+    { key: 'submitting' as const, text: t('livebook.scriptViewer.sceneRenderStart') },
+    { key: 'generating' as const, text: t('livebook.scriptViewer.sceneRendering') },
+    { key: 'success' as const, text: t('livebook.scriptViewer.sceneRenderComplete') }
   ]
   
   const getStageStatus = (stageKey: typeof stages[number]['key']) => {
@@ -78,10 +80,8 @@ const ExecutionStatus = ({ status, progress }: {
           : stageKey === 'generating' ? 'current'
           : 'pending'
       case 'success':
-        // 当状态为 success 时，所有阶段都显示为已完成
         return 'completed'
       case 'error':
-        // 当发生错误时，当前阶段显示错误，之前的阶段显示完成
         return stageKey === 'generating' ? 'error' 
           : stageKey === 'submitting' ? 'completed'
           : 'pending'
@@ -144,6 +144,7 @@ const SceneBackground = memo(({ content, onProgress }: {
     progress: 0
   })
   const isGeneratingRef = useRef(false)
+  const { t } = useI18n()
 
   useEffect(() => {
     let isActive = true
@@ -194,7 +195,7 @@ const SceneBackground = memo(({ content, onProgress }: {
       <div className="absolute inset-0 bg-gray-100 flex items-center justify-center">
         <div className="flex flex-col items-center gap-2">
           <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
-          <span className="text-sm text-gray-500">生成场景图片中...</span>
+          <span className="text-sm text-gray-500">{t('livebook.sceneRendering')}</span>
         </div>
       </div>
     )
@@ -435,7 +436,6 @@ export function ScriptViewer({ title, scenes }: { title: string, scenes: ScriptI
     status: 'idle',
     progress: 0
   })
-  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const groupedScenes = groupMessagesIntoScenes(scenes)
@@ -479,7 +479,6 @@ export function ScriptViewer({ title, scenes }: { title: string, scenes: ScriptI
             {generationStatus.status !== 'idle' && (
               <ExecutionStatus 
                 status={generationStatus.status}
-                progress={generationStatus}
               />
             )}
           </div>

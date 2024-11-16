@@ -6,7 +6,7 @@
 </div>
 
 
-## A collection of ideas totally implemented by AI. Let's see how far they can go.
+## A collection of ideas totally implemented by AI. A live experiement, let's see how far they can go.
 
 > ### Human, do not touch the code! Let AI do all the things.
 
@@ -66,9 +66,11 @@ Ask GitHub, you get:
 
 #### Bring static book into life, with AIGC.
 
-![LiveBook](./public/screenshots/livebook.png)
+![LiveBook](./public/screenshots/livebook_en.png)
 
 ## More folders have been created...
+
+## Also, welcome to merge your insane ideas done by AI!
 
 ---
 
@@ -133,4 +135,5 @@ npm run dev
 
 ![LiveBook](./public/screenshots/livebook.png)
 
-## 其他的已新建文件夹...
+### 其他的已新建文件夹...同时欢迎将你用AI实现的想法与之合并！
+

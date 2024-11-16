@@ -1,16 +1,16 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import { Confetti } from '@/components/ui/confetti'
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { ArrowUpIcon, BookOpen, Sparkles, Loader2, Check } from "lucide-react"
 import { useI18n } from '@/i18n/context'
-import { ScriptViewer } from './livebook/script-viewer'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { ArrowUpIcon, BookOpen, Check, Loader2, Sparkles } from "lucide-react"
+import { useCallback, useRef, useState } from 'react'
 import { TypeAnimation } from 'react-type-animation'
-import { Confetti } from '@/components/ui/confetti'
+import { ScriptViewer } from './livebook/script-viewer'
 
 export function LiveBook() {
   const { t } = useI18n()
@@ -176,12 +176,12 @@ export function LiveBook() {
                   <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
                     <Check className="w-6 h-6 text-green-600" />
                   </div>
-                  <h2 className="text-xl font-semibold text-green-600">生成完成！</h2>
+                  <h2 className="text-xl font-semibold text-green-600">{t('livebook.scriptGenerated')}</h2>
                 </motion.div>
               ) : (
                 <>
                   <Loader2 className="w-6 h-6 animate-spin mr-2" />
-                  <h2 className="text-xl font-semibold">剧本生成中...</h2>
+                  <h2 className="text-xl font-semibold">{t('livebook.scriptGenerating')}</h2>
                 </>
               )}
             </div>
@@ -283,7 +283,7 @@ export function LiveBook() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
             >
-              <Card className="overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-[420px]">
+              <Card className="overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-[320px]">
                 <div className="h-[200px] relative bg-gradient-to-br from-indigo-500/10 to-purple-500/10">
                   <img 
                     src={t('livebook.examples.spaceWar.image')}
@@ -300,13 +300,15 @@ export function LiveBook() {
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-col flex-1 p-4">
-                  <p className="text-sm text-gray-600 line-clamp-4 mb-auto">
-                    {t('livebook.examples.spaceWar.preview')}
-                  </p>
+                <div className="flex flex-col flex-1">
+                  <div className="px-4 pt-4 flex-1">
+                    <p className="text-sm text-gray-600 line-clamp-3">
+                      {t('livebook.examples.spaceWar.preview')}
+                    </p>
+                  </div>
                   <Button
                     variant="ghost"
-                    className="w-full mt-4 text-sm hover:bg-gray-100"
+                    className="w-full text-sm hover:bg-gray-100 rounded-none h-12 mt-auto border-t"
                     onClick={() => setStoryText(t('livebook.examples.spaceWar.content'))}
                   >
                     {t('livebook.useThisStory')}
@@ -314,7 +316,7 @@ export function LiveBook() {
                 </div>
               </Card>
 
-              <Card className="overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-[420px]">
+              <Card className="overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-[320px]">
                 <div className="h-[200px] relative bg-gradient-to-br from-green-500/10 to-yellow-500/10">
                   <img 
                     src={t('livebook.examples.animalFarm.image')}
@@ -331,13 +333,15 @@ export function LiveBook() {
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-col flex-1 p-4">
-                  <p className="text-sm text-gray-600 line-clamp-4 mb-auto">
-                    {t('livebook.examples.animalFarm.preview')}
-                  </p>
+                <div className="flex flex-col flex-1">
+                  <div className="px-4 pt-4 flex-1">
+                    <p className="text-sm text-gray-600 line-clamp-3">
+                      {t('livebook.examples.animalFarm.preview')}
+                    </p>
+                  </div>
                   <Button
                     variant="ghost"
-                    className="w-full mt-4 text-sm hover:bg-gray-100"
+                    className="w-full text-sm hover:bg-gray-100 rounded-none h-12 mt-auto border-t"
                     onClick={() => setStoryText(t('livebook.examples.animalFarm.content'))}
                   >
                     {t('livebook.useThisStory')}
@@ -345,7 +349,7 @@ export function LiveBook() {
                 </div>
               </Card>
 
-              <Card className="overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-[420px]">
+              <Card className="overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-all group flex flex-col h-[320px]">
                 <div className="h-[200px] relative bg-gradient-to-br from-blue-500/10 to-purple-500/10">
                   <img 
                     src={t('livebook.examples.moonlightForest.image')}
@@ -362,13 +366,15 @@ export function LiveBook() {
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-col flex-1 p-4">
-                  <p className="text-sm text-gray-600 line-clamp-4 mb-auto">
-                    {t('livebook.examples.moonlightForest.preview')}
-                  </p>
+                <div className="flex flex-col flex-1">
+                  <div className="px-4 pt-4 flex-1">
+                    <p className="text-sm text-gray-600 line-clamp-3">
+                      {t('livebook.examples.moonlightForest.preview')}
+                    </p>
+                  </div>
                   <Button
                     variant="ghost"
-                    className="w-full mt-4 text-sm hover:bg-gray-100"
+                    className="w-full text-sm hover:bg-gray-100 rounded-none h-12 mt-auto border-t"
                     onClick={() => {
                       setStoryText(t('livebook.examples.moonlightForest.content'))
                     }}

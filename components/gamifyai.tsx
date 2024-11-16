@@ -93,7 +93,7 @@ const data = {
   user: {
     name: "Symbolk",
     email: "symbolk@163.com",
-    avatar: "/avatars/duck.png",
+    avatar: "/avatars/conductor.png",
   },
   navMain: [
     {
@@ -312,10 +312,11 @@ export function GamifyAI() {
                         currentPage === item.url ? 'bg-sidebar-accent' : ''
                       )}
                       onClick={() => handlePageChange(item.url as PageType)}
+                      projectKey={item.url}
                     >
                       <a>
                         <item.icon />
-                        <span>{t(`projects.${item.url}`)}</span>
+                        <span>{t(`projects.${item.url}.name`)}</span>
                       </a>
                     </SidebarMenuButton>
                     <DropdownMenu>
@@ -367,7 +368,6 @@ export function GamifyAI() {
                     <SidebarMenuItem>
                       <SidebarMenuButton 
                         asChild 
-                        tooltip={t(`${item.title.toLowerCase()}.title`)}
                         className={currentPage === 'playground' && item.title === 'Playground' ? 'bg-sidebar-accent' : ''}
                         onClick={() => item.title === 'Playground' && handlePageChange('playground')}
                       >
@@ -545,7 +545,7 @@ export function GamifyAI() {
                   </BreadcrumbItem>
                   <BreadcrumbSeparator />
                   <BreadcrumbItem>
-                    <BreadcrumbPage>{t(`projects.${currentPage}`)}</BreadcrumbPage>
+                    <BreadcrumbPage>{t(`projects.${currentPage}.title`)}</BreadcrumbPage>
                   </BreadcrumbItem>
                 </BreadcrumbList>
               </Breadcrumb>

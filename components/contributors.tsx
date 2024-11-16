@@ -14,12 +14,11 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
 import { Button } from "@/components/ui/button"
+import { useI18n } from '@/i18n/context'
 
 const contributorsByRole = {
   development: {
     icon: <Code2 className="h-4 w-4" />,
-    nameZh: '开发',
-    nameEn: 'Development',
     items: [
       {
         name: 'Cursor',
@@ -35,8 +34,6 @@ const contributorsByRole = {
   },
   architecture: {
     icon: <Box className="h-4 w-4" />,
-    nameZh: '架构',
-    nameEn: 'Architecture',
     items: [
       {
         name: 'v0.dev',
@@ -47,8 +44,6 @@ const contributorsByRole = {
   },
   design: {
     icon: <Palette className="h-4 w-4" />,
-    nameZh: '设计',
-    nameEn: 'Design',
     items: [
       {
         name: 'Motiff',
@@ -59,8 +54,6 @@ const contributorsByRole = {
   },
   image: {
     icon: <ImageIcon className="h-4 w-4" />,
-    nameZh: '图像生成',
-    nameEn: 'Text2Image',
     items: [
       {
         name: 'KlingAI',
@@ -108,8 +101,7 @@ function ContributorGroup({
 }
 
 export function Contributors() {
-  const pathname = usePathname() || ''
-  const isEnglish = pathname.startsWith('/en')
+  const { t } = useI18n()
 
   return (
     <HoverCard openDelay={200}>
@@ -121,7 +113,7 @@ export function Contributors() {
         >
           <div className="flex items-center gap-2">
             <Bot className="h-4 w-4" />
-            <span>{isEnglish ? 'AI Contributors' : 'AI贡献者'}</span>
+            <span>{t('contributors.title')}</span>
           </div>
           <span className="text-muted-foreground">→</span>
         </Button>
@@ -132,12 +124,12 @@ export function Contributors() {
         className="w-[240px] p-2"
       >
         <div className="space-y-4">
-          {Object.entries(contributorsByRole).map(([role, { items, icon, nameZh, nameEn }]) => (
+          {Object.entries(contributorsByRole).map(([role, { items, icon }]) => (
             <ContributorGroup
               key={role}
               items={items}
               icon={icon}
-              name={isEnglish ? nameEn : nameZh}
+              name={t(`contributors.roles.${role}`)}
             />
           ))}
         </div>

@@ -22,6 +22,26 @@ export interface LiveBookTranslations {
     animalFarm: StoryExample
     moonlightForest: StoryExample
   }
+  scriptViewer: {
+    sceneRenderStart: string
+    sceneRendering: string
+    sceneRenderComplete: string
+  }
+}
+
+export interface ContributorsTranslations {
+  title: string
+  roles: {
+    development: string
+    architecture: string
+    design: string
+    image: string
+  }
+}
+
+export interface Translations {
+  // ... existing translations ...
+  contributors: ContributorsTranslations
 }
 
 // ... 其他翻译接口定义 
