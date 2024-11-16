@@ -1,20 +1,19 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { 
-  Bot, 
-  Code2, 
-  Palette, 
-  Box, 
-  Image as ImageIcon 
-} from 'lucide-react'
-import { usePathname } from 'next/navigation'
+import { Button } from "@/components/ui/button"
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card"
-import { Button } from "@/components/ui/button"
 import { useI18n } from '@/i18n/context'
+import {
+  Bot,
+  Box,
+  Code2,
+  Image as ImageIcon,
+  Palette
+} from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const contributorsByRole = {
   development: {

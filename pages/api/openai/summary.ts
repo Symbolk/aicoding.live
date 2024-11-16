@@ -1,12 +1,13 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { createChatCompletion } from '@/lib/01ai'
+import { GithubRepo } from '@/components/askgithub'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const { query, repos, keywords } = req.body
 
     try {
-      const reposData = repos.map((repo: any) => ({
+      const reposData = repos.map((repo: GithubRepo) => ({
         name: repo.full_name,
         description: repo.description,
         stars: repo.stargazers_count,
@@ -31,9 +32,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       ])
       const content = response.choices[0].message.content;
       res.status(200).json({ summary: content})
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('01 AI API error:', error)
-      res.status(500).json({ error: error.message || 'Error generating summary' })
+      res.status(500).json({ error: error instanceof Error ? error.message : 'Error generating summary' })
     }
   } else {
     res.setHeader('Allow', ['POST'])

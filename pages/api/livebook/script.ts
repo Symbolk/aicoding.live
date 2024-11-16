@@ -44,9 +44,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.log(scriptData);
       const script = JSON.parse(scriptData)
       res.status(200).json(script)
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Script generation error:', error)
-      res.status(500).json({ error: error.message || 'Error generating script' })
+      res.status(500).json({ error: error instanceof Error ? error.message : 'Error generating script' })
     }
   } else {
     res.setHeader('Allow', ['POST'])

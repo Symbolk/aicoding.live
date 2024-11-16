@@ -1,3 +1,5 @@
+import { GithubRepo } from "./askgithub"
+
 // 解析用户查询为关键词
 async function extractKeywords(query: string): Promise<string[]> {
   const response = await fetch('/api/openai/keywords', {
@@ -34,7 +36,7 @@ async function searchGithubRepos(keyword: string) {
 }
 
 // 生成摘要
-async function generateRepoSummary(query: string, repos: any[], keywords: string[]): Promise<string> {
+async function generateRepoSummary(query: string, repos: GithubRepo[], keywords: string[]): Promise<string> {
   const response = await fetch('/api/openai/summary', {
     method: 'POST',
     headers: {
@@ -52,8 +54,8 @@ async function generateRepoSummary(query: string, repos: any[], keywords: string
 }
 
 // 主搜索函数
-export async function searchGithub(query: string, keywords: string[]): Promise<any[]> {
-  let allRepos: any[] = []
+export async function searchGithub(query: string, keywords: string[]): Promise<GithubRepo[]> {
+  let allRepos: GithubRepo[] = [] 
   
   for (const keyword of keywords) {
     const repos = await searchGithubRepos(keyword)
@@ -75,7 +77,7 @@ export type SearchStatus = {
 export async function completeSearch(
   query: string,
   onStatusUpdate: (status: SearchStatus) => void
-): Promise<{ repos: any[], summary: string }> {
+): Promise<{ repos: GithubRepo[], summary: string }> {
   // 思考阶段
   onStatusUpdate({ type: 'thinking', content: '正在分析你的问题...' })
   const keywords = await extractKeywords(query)

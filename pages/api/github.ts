@@ -19,7 +19,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       res.status(200).json(result.data.items)
     } catch (error) {
-      res.status(500).json({ error: 'Error fetching GitHub repositories' })
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+      res.status(500).json({ error: `Error fetching GitHub repositories: ${errorMessage}` })
     }
   } else {
     res.setHeader('Allow', ['POST'])

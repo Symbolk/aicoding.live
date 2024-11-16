@@ -4,29 +4,22 @@ import {
   BadgeCheck,
   Bell,
   BookOpen,
-  Bot,
-  Github,
   ChevronRight,
   ChevronsUpDown,
-  Command,
-  Gamepad2,
   CreditCard,
+  Dog,
   Folder,
-  Frame,
-  LifeBuoy,
+  Gamepad2,
+  Github,
+  Globe,
   LogOut,
-  Map,
   MoreHorizontal,
-  PieChart,
+  Network,
   Send,
-  Settings2,
   Share,
   Sparkles,
   SquareTerminal,
-  Trash2,
-  Globe,
-  Dog,
-  Network,
+  Trash2
 } from "lucide-react"
 
 import {
@@ -47,6 +40,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import { Confetti } from '@/components/ui/confetti'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -76,15 +70,14 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { HuggingDog } from "./huggingdog"
-import { AskGitHub } from "./askgithub"
-import { LiveBook } from "./livebook"
-import { useState, useRef, useCallback } from "react"
 import { useI18n } from "@/i18n/context"
-import { CommandMenu } from "./command-menu"
-import { Button } from "./ui/button"
 import { cn } from "@/lib/utils"
-import { Confetti } from '@/components/ui/confetti'
+import { useCallback, useRef, useState } from "react"
+import { AskGitHub } from "./askgithub"
+import { CommandMenu } from "./command-menu"
+import { HuggingDog } from "./huggingdog"
+import { LiveBook } from "./livebook"
+import { Button } from "./ui/button"
 
 // 定义页面类型
 type PageType = 'playground' | 'huggingdog' | 'askgithub' | 'livebook'
@@ -242,21 +235,6 @@ export function GamifyAI() {
             <h1 className="text-2xl font-bold">Playground</h1>
           </div>
         )
-    }
-  }
-
-  // 获取当前页面标题
-  const getCurrentPageTitle = () => {
-    switch (currentPage) {
-      case 'huggingdog':
-        return 'HuggingDog'
-      case 'askgithub':
-        return 'AskGitHub'
-      case 'livebook':
-        return 'LiveBook'
-      case 'playground':
-      default:
-        return 'Playground'
     }
   }
 

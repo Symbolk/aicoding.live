@@ -180,7 +180,6 @@ export async function generateImageWithProgress(
         let retryCount = 0
         const maxRetries = 60  // 增加到60次，总共等待5分钟
         const pollInterval = 5000  // 每5秒查询一次
-        const startTime = Date.now()
 
         while (retryCount < maxRetries) {
             try {

@@ -10,8 +10,10 @@ import { useI18n } from '@/i18n/context'
 import { ExecutionStatus, ExecutionStage } from './execution-status'
 import ReactMarkdown from 'react-markdown'
 
-type Repo = {
+export type GithubRepo = {
+  id: number
   name: string
+  full_name: string
   description: string
   html_url: string
   stargazers_count: number
@@ -25,8 +27,8 @@ type Message = {
 }
 
 type SearchResult = {
-  extendedQuery: string
-  repos: Repo[]
+  extendedQuery?: string
+  repos: GithubRepo[]
   summary: string
 }
 

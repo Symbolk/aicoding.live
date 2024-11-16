@@ -29,9 +29,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       console.log(content)
       const topics = JSON.parse(content)
       res.status(200).json(topics)
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Analysis error:', error)
-      res.status(500).json({ error: error.message || 'Error analyzing data' })
+      res.status(500).json({ error: error instanceof Error ? error.message : 'Error analyzing data' })
     }
   } else {
     res.setHeader('Allow', ['POST'])

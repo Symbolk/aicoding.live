@@ -24,9 +24,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const keywords = JSON.parse(content)
       console.log('keywords:', keywords)
       res.status(200).json({ keywords })
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('01 AI API error:', error)
-      res.status(500).json({ error: error.message || 'Error extracting keywords' })
+      res.status(500).json({ error: error instanceof Error ? error.message : 'Error extracting keywords' })
     }
   } else {
     res.setHeader('Allow', ['POST'])

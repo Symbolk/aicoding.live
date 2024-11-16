@@ -1,14 +1,11 @@
 "use client"
 
-import * as React from "react"
 import {
-  Bot,
-  Github,
   BookOpen,
-  Frame,
-  PieChart,
-  Map,
+  Bot,
+  Github
 } from "lucide-react"
+import * as React from "react"
 
 import {
   CommandDialog,

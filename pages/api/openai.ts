@@ -21,8 +21,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       })
 
       res.status(200).json(response)
-    } catch (error) {
-      res.status(500).json({ error: 'Error processing request' })
+    } catch (error: unknown) {
+      res.status(500).json({ error: error instanceof Error ? error.message : 'Error processing request' })
     }
   } else {
     res.setHeader('Allow', ['POST'])
