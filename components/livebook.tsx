@@ -15,7 +15,7 @@ import { ScriptViewer } from './livebook/script-viewer'
 export function LiveBook() {
   const { t } = useI18n()
   const [storyText, setStoryText] = useState('')
-  const [file, setFile] = useState<File | null>(null)
+  const [, setFile] = useState<File | null>(null)
   const [loading, setLoading] = useState(false)
   const [script, setScript] = useState<any>(null)
   const [generatingProgress, setGeneratingProgress] = useState<{
@@ -27,7 +27,7 @@ export function LiveBook() {
     scenes: [],
     currentScene: 0
   })
-  const [isConfettiActive, setIsConfettiActive] = useState(false)
+  const [, setIsConfettiActive] = useState(false)
   const confettiRef = useRef<any>(null)
 
   const handleGenerateScript = async () => {

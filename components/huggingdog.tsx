@@ -196,13 +196,13 @@ export function HuggingDog() {
   const { t } = useI18n()
   const [date, setDate] = useState<Date>(new Date())
   const [loading, setLoading] = useState(false)
-  const [stats, setStats] = useState({
+  const [, setStats] = useState({
     papers: 0,
     models: 0,
     datasets: 0,
     spaces: 0
   })
-  const [topics, setTopics] = useState<WordData[]>([])
+  const [, setTopics] = useState<WordData[]>([])
   const [retweetedReports, setRetweetedReports] = useState<number[]>([])
   const [likedReports, setLikedReports] = useState<number[]>([])
   const [dateModified, setDateModified] = useState(false)
