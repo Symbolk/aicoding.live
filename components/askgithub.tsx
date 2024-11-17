@@ -9,6 +9,7 @@ import { ArrowUpRight, Star, GitFork, Github, ChevronDown, ChevronUp } from 'luc
 import { useI18n } from '@/i18n/context'
 import { ExecutionStatus, ExecutionStage } from './execution-status'
 import ReactMarkdown from 'react-markdown'
+import Image from 'next/image'
 
 export type GithubRepo = {
   id: number
@@ -125,8 +126,17 @@ export function AskGitHub() {
   }, [query, t, stages])
 
   return (
-    <main className="min-h-screen bg-white">
-      <div className="max-w-5xl mx-auto px-4 py-8">
+    <main className="min-h-screen bg-white relative">
+      <div className="absolute bottom-0 right-0 w-64 h-64 pointer-events-none opacity-20">
+        <Image
+          src="/illustrations/a_programmer_work.svg"
+          alt="AskGitHub"
+          width={256}
+          height={256}
+          priority
+        />
+      </div>
+      <div className="max-w-5xl mx-auto px-4 py-8 relative z-10">
         <div className="flex items-center justify-center mb-8">
           <Github className="w-8 h-8 mr-2 text-[#24292f]" />
           <h1 className="text-5xl font-bold text-[#24292f]">{t('askgithub.title')}</h1>

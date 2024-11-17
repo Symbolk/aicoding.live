@@ -33,6 +33,7 @@ import {
   fetchNewDatasets,
   fetchNewSpaces
 } from '@/lib/huggingface'
+import Image from 'next/image'
 
 interface WordData {
   text: string;
@@ -280,8 +281,17 @@ export function HuggingDog() {
   }
 
   return (
-    <div className="flex w-full flex-col">
-      <div className="flex-1 space-y-4">
+    <div className="flex w-full flex-col relative">
+      <div className="absolute bottom-0 right-0 w-64 h-64 pointer-events-none opacity-20">
+        <Image
+          src="/illustrations/dog_walking.svg"
+          alt="Dog Walking"
+          width={256}
+          height={256}
+          priority
+        />
+      </div>
+      <div className="flex-1 space-y-4 relative z-10">
         <Tabs defaultValue="overview" className="space-y-4">
           <div className="flex justify-between items-center">
             <TabsList>
