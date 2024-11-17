@@ -27,7 +27,10 @@ export default {
     title: "Playground",
     history: "History",
     starred: "Starred",
-    settings: "Settings"
+    settings: "Settings",
+    questionLoading: "Preparing a Pile of Questions...",
+    interviewQuestion: "Interview Question",
+    interviewAnswer: "Reference Answer"
   },
   projects: {
     huggingdog: {
@@ -44,6 +47,11 @@ export default {
       name: "LiveBook",
       title: "LiveBook",
       description: "Bring static book into life, with AIGC."
+    },
+    playground: {
+      name: "Playground",
+      title: "Playground",
+      description: "Some random ideas that haven't become projects yet."
     },
     designEngineering: {
       name: "Design Engineering",

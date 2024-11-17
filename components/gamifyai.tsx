@@ -78,6 +78,7 @@ import { CommandMenu } from "./command-menu"
 import { HuggingDog } from "./huggingdog"
 import { LiveBook } from "./livebook"
 import { Button } from "./ui/button"
+import { InterviewCards } from './playground/interview-cards'
 
 // 定义页面类型
 type PageType = 'playground' | 'huggingdog' | 'askgithub' | 'livebook'
@@ -232,7 +233,7 @@ export function GamifyAI() {
       default:
         return (
           <div className="flex items-center justify-center h-full">
-            <h1 className="text-2xl font-bold">Playground</h1>
+            <InterviewCards />
           </div>
         )
     }
