@@ -42,6 +42,15 @@ export interface ContributorsTranslations {
 export interface Translations {
   // ... existing translations ...
   contributors: ContributorsTranslations
+  playground: {
+    interview: {
+      loading: string
+      remainingCards: string
+      showAnswer: string
+      backToQuestion: string
+      cardCount: string
+    }
+  }
 }
 
 // ... 其他翻译接口定义 

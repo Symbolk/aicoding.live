@@ -34,6 +34,7 @@ import {
   fetchNewSpaces
 } from '@/lib/huggingface'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
 
 interface WordData {
   text: string;
@@ -282,16 +283,7 @@ export function HuggingDog() {
 
   return (
     <div className="flex w-full flex-col relative">
-      <div className="absolute bottom-0 right-0 w-64 h-64 pointer-events-none opacity-20">
-        <Image
-          src="/illustrations/dog_walking.svg"
-          alt="Dog Walking"
-          width={256}
-          height={256}
-          priority
-        />
-      </div>
-      <div className="flex-1 space-y-4 relative z-10">
+      <div className="flex-1 space-y-4">
         <Tabs defaultValue="overview" className="space-y-4">
           <div className="flex justify-between items-center">
             <TabsList>
@@ -331,173 +323,302 @@ export function HuggingDog() {
               </Button>
             </div>
           </div>
-          <TabsContent value="overview">
+          <TabsContent value="overview" className="relative pb-64">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium text-gray-500">{t('huggingdog.dailyPapers')}</p>
-                      <p className="text-2xl font-bold">+10</p>
+              <motion.div
+                initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
+                animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.1 }}
+                whileHover={{ 
+                  y: -8,  // 向上浮动
+                  scale: 1.02,  // 轻微放大
+                  transition: { 
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20
+                  }
+                }}
+              >
+                <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 hover:shadow-lg hover:border-gray-300">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium text-gray-500">{t('huggingdog.dailyPapers')}</p>
+                        <p className="text-2xl font-bold">+10</p>
+                      </div>
+                      <FileText className="h-4 w-4 text-gray-400" />
                     </div>
-                    <FileText className="h-4 w-4 text-gray-400" />
-                  </div>
-                  <p className="text-xs text-gray-500">{t('huggingdog.fromLastMonth')}</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium text-gray-500">{t('huggingdog.createdModels')}</p>
-                      <p className="text-2xl font-bold">+10</p>
+                    <p className="text-xs text-gray-500">{t('huggingdog.fromLastMonth')}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+              
+              <motion.div
+                initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
+                animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                whileHover={{ 
+                  y: -8,
+                  scale: 1.02,
+                  transition: { 
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20
+                  }
+                }}
+              >
+                <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 hover:shadow-lg hover:border-gray-300">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium text-gray-500">{t('huggingdog.createdModels')}</p>
+                        <p className="text-2xl font-bold">+10</p>
+                      </div>
+                      <Cpu className="h-4 w-4 text-gray-400" />
                     </div>
-                    <Cpu className="h-4 w-4 text-gray-400" />
-                  </div>
-                  <p className="text-xs text-gray-500">{t('huggingdog.monthlyIncrease')}</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium text-gray-500">{t('huggingdog.uploadedDatasets')}</p>
-                      <p className="text-2xl font-bold">+10</p>
+                    <p className="text-xs text-gray-500">{t('huggingdog.monthlyIncrease')}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+              
+              <motion.div
+                initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
+                animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                whileHover={{ 
+                  y: -8,
+                  scale: 1.02,
+                  transition: { 
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20
+                  }
+                }}
+              >
+                <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 hover:shadow-lg hover:border-gray-300">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium text-gray-500">{t('huggingdog.uploadedDatasets')}</p>
+                        <p className="text-2xl font-bold">+10</p>
+                      </div>
+                      <Database className="h-4 w-4 text-gray-400" />
                     </div>
-                    <Database className="h-4 w-4 text-gray-400" />
-                  </div>
-                  <p className="text-xs text-gray-500">{t('huggingdog.monthlyDataIncrease')}</p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium text-gray-500">{t('huggingdog.launchedSpaces')}</p>
-                      <p className="text-2xl font-bold">+10</p>
+                    <p className="text-xs text-gray-500">{t('huggingdog.monthlyDataIncrease')}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+              
+              <motion.div
+                initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
+                animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                whileHover={{ 
+                  y: -8,
+                  scale: 1.02,
+                  transition: { 
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20
+                  }
+                }}
+              >
+                <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 hover:shadow-lg hover:border-gray-300">
+                  <CardContent className="p-6">
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium text-gray-500">{t('huggingdog.launchedSpaces')}</p>
+                        <p className="text-2xl font-bold">+10</p>
+                      </div>
+                      <Layout className="h-4 w-4 text-gray-400" />
                     </div>
-                    <Layout className="h-4 w-4 text-gray-400" />
-                  </div>
-                  <p className="text-xs text-gray-500">{t('huggingdog.sinceLastHour')}</p>
-                </CardContent>
-              </Card>
+                    <p className="text-xs text-gray-500">{t('huggingdog.sinceLastHour')}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
             </div>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 mt-4">
-              <Card className="col-span-4">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-medium">{t('huggingdog.topicTrends')}</h3>
-                  </div>
-                  <div className="h-[300px] w-full">
-                    <WordCloud words={hotTopics} />
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="col-span-3">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-medium">{t('huggingdog.hotTopics')}</h3>
-                    <p className="text-sm text-gray-500">{t('huggingdog.summarizedByAI')}</p>
-                  </div>
-                  <div className="mt-4 space-y-4">
-                    {hotTopics.map((topic, index) => (
-                      <div key={index} className="w-full">
-                        <div className="flex justify-between items-center mb-1">
-                          <p className="text-sm font-medium">{topic.text}</p>
-                          <span className="text-sm text-gray-500">{t('huggingdog.score')}: {topic.value}</span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2.5">
-                          <div
-                            className="bg-blue-600 h-2.5 rounded-full"
-                            style={{ width: `${(topic.value / Math.max(...hotTopics.map(t => t.value))) * 100}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </TabsContent>
-          <TabsContent value="reports">
-            <div className="grid gap-8 md:grid-cols-1 max-w-2xl mx-auto">
-              {reports.map((report) => (
-                <Card 
-                  key={report.id} 
-                  className="border border-gray-200 hover:border-gray-300 transition-colors duration-200 shadow-lg hover:shadow-xl"
-                >
-                  <CardContent className="p-4">
-                    <div className="flex items-start space-x-4">
-                      <img
-                        src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-L8Wdz0ZjlBFo2Hnmf4UOmU5HGTPyGN.png"
-                        alt="HuggingDog"
-                        className="w-12 h-12 rounded-full"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center space-x-1">
-                          <span className="text-sm font-bold text-gray-900">HuggingDog</span>
-                          <BadgeCheck className="w-4 h-4 text-blue-500" />
-                          <span className="text-sm text-gray-500">@huggingdog · {report.time}</span>
-                        </div>
-                        <p className="mt-1 text-gray-900">
-                          {report.content.split(/(@\w+[-\w]*)/g).map((part, index) => {
-                            if (part.startsWith('@')) {
-                              const paperKey = part.slice(1)
-                              const paper = papers[paperKey]
-                              if (paper) {
-                                return (
-                                  <HoverCard key={index}>
-                                    <HoverCardTrigger asChild>
-                                      <span className="text-blue-500 hover:underline cursor-pointer">
-                                        {part}
-                                      </span>
-                                    </HoverCardTrigger>
-                                    <HoverCardContent className="w-80">
-                                      <div className="space-y-2">
-                                        <h4 className="text-sm font-semibold">{paper.title}</h4>
-                                        <p className="text-sm text-gray-500">{paper.authors}</p>
-                                        <p className="text-sm">{paper.abstract}</p>
-                                      </div>
-                                    </HoverCardContent>
-                                  </HoverCard>
-                                )
-                              }
-                            }
-                            return part
-                          })}
-                        </p>
-                        <div className="flex items-center justify-between mt-3 text-gray-500">
-                          <Button variant="ghost" size="sm" className="flex items-center space-x-1">
-                            <MessageCircle className="w-4 h-4" />
-                            <span>{report.replies}</span>
-                          </Button>
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
-                            className={`flex items-center space-x-1 ${retweetedReports.includes(report.id) ? 'text-green-500' : ''}`}
-                            onClick={() => handleRetweet(report.id)}
-                          >
-                            <Repeat2 className="w-4 h-4" />
-                            <span>{retweetedReports.includes(report.id) ? report.retweets + 1 : report.retweets}</span>
-                          </Button>
-                          <Button 
-                            variant="ghost" 
-                            size="sm" 
-                            className={`flex items-center space-x-1 ${likedReports.includes(report.id) ? 'text-red-500' : ''}`}
-                            onClick={() => handleLike(report.id)}
-                          >
-                            <Heart className="w-4 h-4" />
-                            <span>{likedReports.includes(report.id) ? report.likes + 1 : report.likes}</span>
-                          </Button>
-                          <Button variant="ghost" size="sm" className="flex items-center space-x-1">
-                            <Share2 className="w-4 h-4" />
-                          </Button>
-                        </div>
+              <motion.div
+                className="col-span-4 h-[400px]"
+                initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
+                animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
+                whileHover={{ 
+                  y: -8,
+                  scale: 1.02,
+                  transition: { 
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20
+                  }
+                }}
+              >
+                <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 h-full hover:shadow-lg hover:border-gray-300">
+                  <CardContent className="p-6 h-full flex flex-col">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-lg font-medium">{t('huggingdog.topicTrends')}</h3>
+                    </div>
+                    <div className="flex-1">
+                      <WordCloud words={hotTopics} />
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+
+              <motion.div
+                className="col-span-3 h-[400px]"
+                initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
+                animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                whileHover={{ 
+                  y: -8,
+                  scale: 1.02,
+                  transition: { 
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20
+                  }
+                }}
+              >
+                <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 h-full hover:shadow-lg hover:border-gray-300">
+                  <CardContent className="p-6 h-full flex flex-col">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-lg font-medium">{t('huggingdog.hotTopics')}</h3>
+                      <p className="text-sm text-gray-500">{t('huggingdog.summarizedByAI')}</p>
+                    </div>
+                    <div className="flex-1 overflow-y-auto">
+                      <div className="space-y-4">
+                        {hotTopics.map((topic, index) => (
+                          <div key={index} className="w-full">
+                            <div className="flex justify-between items-center mb-1">
+                              <p className="text-sm font-medium">{topic.text}</p>
+                              <span className="text-sm text-gray-500">{t('huggingdog.score')}: {topic.value}</span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-2.5">
+                              <div
+                                className="bg-blue-600 h-2.5 rounded-full"
+                                style={{ width: `${(topic.value / Math.max(...hotTopics.map(t => t.value))) * 100}%` }}
+                              ></div>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </CardContent>
                 </Card>
+              </motion.div>
+            </div>
+            <div className="absolute bottom-0 right-8 w-64 h-64 pointer-events-none opacity-20">
+              <Image
+                src="/illustrations/dog_walking.svg"
+                alt="Dog Walking"
+                width={256}
+                height={256}
+                priority
+              />
+            </div>
+          </TabsContent>
+          <TabsContent value="reports" className="relative pb-64">
+            <div className="grid gap-8 md:grid-cols-1 max-w-2xl mx-auto">
+              {reports.map((report, index) => (
+                <motion.div
+                  key={report.id}
+                  initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
+                  animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  whileHover={{ 
+                    y: -8,
+                    scale: 1.02,
+                    transition: { 
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 20
+                    }
+                  }}
+                >
+                  <Card className="border border-gray-200 hover:border-gray-300 transition-colors duration-200 shadow-lg hover:shadow-xl bg-white/80 backdrop-blur-sm hover:backdrop-blur-none">
+                    <CardContent className="p-4">
+                      <div className="flex items-start space-x-4">
+                        <img
+                          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-L8Wdz0ZjlBFo2Hnmf4UOmU5HGTPyGN.png"
+                          alt="HuggingDog"
+                          className="w-12 h-12 rounded-full"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center space-x-1">
+                            <span className="text-sm font-bold text-gray-900">HuggingDog</span>
+                            <BadgeCheck className="w-4 h-4 text-blue-500" />
+                            <span className="text-sm text-gray-500">@huggingdog · {report.time}</span>
+                          </div>
+                          <p className="mt-1 text-gray-900">
+                            {report.content.split(/(@\w+[-\w]*)/g).map((part, index) => {
+                              if (part.startsWith('@')) {
+                                const paperKey = part.slice(1)
+                                const paper = papers[paperKey]
+                                if (paper) {
+                                  return (
+                                    <HoverCard key={index}>
+                                      <HoverCardTrigger asChild>
+                                        <span className="text-blue-500 hover:underline cursor-pointer">
+                                          {part}
+                                        </span>
+                                      </HoverCardTrigger>
+                                      <HoverCardContent className="w-80">
+                                        <div className="space-y-2">
+                                          <h4 className="text-sm font-semibold">{paper.title}</h4>
+                                          <p className="text-sm text-gray-500">{paper.authors}</p>
+                                          <p className="text-sm">{paper.abstract}</p>
+                                        </div>
+                                      </HoverCardContent>
+                                    </HoverCard>
+                                  )
+                                }
+                              }
+                              return part
+                            })}
+                          </p>
+                          <div className="flex items-center justify-between mt-3 text-gray-500">
+                            <Button variant="ghost" size="sm" className="flex items-center space-x-1">
+                              <MessageCircle className="w-4 h-4" />
+                              <span>{report.replies}</span>
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className={`flex items-center space-x-1 ${retweetedReports.includes(report.id) ? 'text-green-500' : ''}`}
+                              onClick={() => handleRetweet(report.id)}
+                            >
+                              <Repeat2 className="w-4 h-4" />
+                              <span>{retweetedReports.includes(report.id) ? report.retweets + 1 : report.retweets}</span>
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="sm" 
+                              className={`flex items-center space-x-1 ${likedReports.includes(report.id) ? 'text-red-500' : ''}`}
+                              onClick={() => handleLike(report.id)}
+                            >
+                              <Heart className="w-4 h-4" />
+                              <span>{likedReports.includes(report.id) ? report.likes + 1 : report.likes}</span>
+                            </Button>
+                            <Button variant="ghost" size="sm" className="flex items-center space-x-1">
+                              <Share2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               ))}
+            </div>
+            <div className="absolute bottom-0 right-8 w-64 h-64 pointer-events-none opacity-20">
+              <Image
+                src="/illustrations/dog_walking.svg"
+                alt="Dog Walking"
+                width={256}
+                height={256}
+                priority
+              />
             </div>
           </TabsContent>
         </Tabs>

@@ -30,7 +30,14 @@ export default {
     settings: "Settings",
     questionLoading: "Preparing a Pile of Questions...",
     interviewQuestion: "Interview Question",
-    interviewAnswer: "Reference Answer"
+    interviewAnswer: "Reference Answer",
+    interview: {
+      loading: 'Loading interview questions...',
+      remainingCards: 'Remaining cards',
+      showAnswer: 'Show Answer',
+      backToQuestion: 'Back to Question',
+      cardCount: '{{current}}/{{total}}'
+    }
   },
   projects: {
     huggingdog: {

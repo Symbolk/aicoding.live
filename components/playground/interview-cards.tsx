@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/i18n/context'
 import { InterviewQA } from '@/pages/api/interview-questions'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import Image from 'next/image'
 
 // 默认问题，作为初始状态
 const defaultQuestions: InterviewQA[] = [
@@ -19,7 +20,7 @@ const defaultQuestions: InterviewQA[] = [
 ]
 
 export function InterviewCards() {
-  const { t } = useI18n()
+  const { t, locale } = useI18n()
   const [questions, setQuestions] = useState<InterviewQA[]>(defaultQuestions) // 使用默认问题作为初始状态
   const [remainingCards, setRemainingCards] = useState<number>(10)
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -30,7 +31,7 @@ export function InterviewCards() {
   useEffect(() => {
     const loadQuestions = async () => {
       try {
-        const response = await fetch('/api/interview-questions')
+        const response = await fetch(`/api/interview-questions?lang=${locale}`)
         const data = await response.json()
         if (data && Array.isArray(data) && data.length > 0) {
           setQuestions(data)
@@ -44,7 +45,7 @@ export function InterviewCards() {
     }
 
     loadQuestions()
-  }, [])
+  }, [locale])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -75,6 +76,7 @@ export function InterviewCards() {
         <div className="absolute inset-0 bg-gradient-to-br from-pink-200 via-purple-200 to-purple-300 animate-gradient" />
         <div className="relative z-10">
           <LoadingSpinner />
+          <p className="mt-4 text-gray-600">{t('playground.interview.loading')}</p>
         </div>
       </div>
     )
@@ -110,7 +112,17 @@ export function InterviewCards() {
 
   return (
     <div className="relative h-full w-full flex flex-col items-center justify-center p-8">
-      <div className="absolute inset-0 bg-gradient-to-br from-pink-200 via-purple-200 to-purple-300" />
+      <div className="absolute inset-0 bg-gradient-to-br from-pink-200/50 via-purple-200/50 to-purple-300/50" />
+      
+      <div className="absolute bottom-0 right-0 w-64 h-64 pointer-events-none opacity-20">
+        <Image
+          src="/illustrations/organizing_files.svg"
+          alt="Organizing Files"
+          width={256}
+          height={256}
+          priority
+        />
+      </div>
       
       <div className="relative w-[400px] h-[300px]">
         <AnimatePresence mode="wait">
@@ -149,7 +161,7 @@ export function InterviewCards() {
                     transition={{ duration: 0.3 }}
                     className="absolute w-full h-full"
                   >
-                    <div className="w-full h-full p-8 rounded-3xl bg-white shadow-xl border border-white flex flex-col justify-between">
+                    <div className="w-full h-full p-8 rounded-3xl bg-white/85 backdrop-blur-md shadow-xl border border-white/50 flex flex-col justify-between hover:bg-white/95 transition-colors duration-300">
                       <div>
                         <p className="text-lg text-gray-800">
                           {questions[questionIndex].answer}
@@ -160,10 +172,10 @@ export function InterviewCards() {
                           {questionIndex + 1}/{questions.length}
                         </div>
                         <div className="text-sm font-medium px-4 py-2 
-                                    bg-purple-600 text-white rounded-full shadow-md
-                                    transition-transform duration-300 
-                                    hover:scale-110 active:scale-95">
-                          返回问题
+                                    bg-purple-600/90 text-white rounded-full shadow-md
+                                    transition-all duration-300 
+                                    hover:scale-110 hover:bg-purple-600 active:scale-95">
+                          {t('playground.interview.backToQuestion')}
                         </div>
                       </div>
                     </div>
@@ -177,7 +189,7 @@ export function InterviewCards() {
                     transition={{ duration: 0.3 }}
                     className="absolute w-full h-full"
                   >
-                    <div className="w-full h-full p-8 rounded-3xl bg-white shadow-xl border border-white flex flex-col justify-between">
+                    <div className="w-full h-full p-8 rounded-3xl bg-white/85 backdrop-blur-md shadow-xl border border-white/50 flex flex-col justify-between hover:bg-white/95 transition-colors duration-300">
                       <div>
                         <h2 className="text-2xl font-semibold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-6">
                           {questions[questionIndex].question}
@@ -188,10 +200,10 @@ export function InterviewCards() {
                           {questionIndex + 1}/{questions.length}
                         </div>
                         <div className="text-sm font-medium px-4 py-2 
-                                    bg-purple-600 text-white rounded-full shadow-md
-                                    transition-transform duration-300 
-                                    hover:scale-110 active:scale-95">
-                          查看答案
+                                    bg-purple-600/90 text-white rounded-full shadow-md
+                                    transition-all duration-300 
+                                    hover:scale-110 hover:bg-purple-600 active:scale-95">
+                          {t('playground.interview.showAnswer')}
                         </div>
                       </div>
                     </div>
