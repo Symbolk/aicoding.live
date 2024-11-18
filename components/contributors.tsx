@@ -60,6 +60,16 @@ const contributorsByRole = {
         url: 'https://www.klingai.com'
       }
     ]
+  },
+  text: {
+    icon: <Bot className="h-4 w-4" />,
+    items: [
+      {
+        name: 'Yi-lightning',
+        avatar: '/contributors/01ai.png',
+        url: 'https://www.01.ai'
+      }
+    ]
   }
 }
 
@@ -72,6 +82,8 @@ function ContributorGroup({
   icon: React.ReactNode
   name: string 
 }) {
+  const { t, locale } = useI18n()
+  
   return (
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-2 px-3 py-1.5 text-sm text-muted-foreground">
@@ -92,7 +104,12 @@ function ContributorGroup({
             height={20}
             className="rounded-full"
           />
-          <span>{contributor.name}</span>
+          <span>
+            {contributor.name === 'KlingAI' && locale === 'zh' 
+              ? t('companies.klingai')
+              : contributor.name
+            }
+          </span>
         </Link>
       ))}
     </div>

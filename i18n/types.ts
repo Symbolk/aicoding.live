@@ -36,6 +36,7 @@ export interface ContributorsTranslations {
     architecture: string
     design: string
     image: string
+    text: string
   }
 }
 

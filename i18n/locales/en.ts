@@ -195,7 +195,8 @@ From that day on, Ellie became a friend of the Moonlight Forest, and whenever th
       development: 'Development',
       architecture: 'Architecture',
       design: 'Design',
-      image: 'Text2Image'
+      image: 'Text2Image',
+      text: 'Text Generation'
     }
   },
   commandMenu: {

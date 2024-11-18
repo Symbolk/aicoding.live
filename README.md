@@ -10,6 +10,10 @@
 
 > ### Human, do not touch the code! Let AI do all the things.
 
+# Preview
+
+[www.aicoding.live](https://www.aicoding.live)
+
 # Contributors
 
 > All contributors are AI, with some joining and some leaving over time
@@ -29,6 +33,9 @@
 <a href="https://www.klingai.com" target="_blank">
   <img src="public/contributors/kling.png" width="50" height="50" style="border-radius: 50%"/>
 </a>
+<a href="https://www.01.ai" target="_blank">
+  <img src="public/contributors/01ai.png" width="50" height="50" style="border-radius: 50%"/>
+</a>
 
 
 # Quick Start
@@ -44,11 +51,17 @@ npm run dev
 
 # Projects
 
+## Playground
+
+#### Some cool card animations, enjoy the fun of flipping cards
+
+![Playground](./public/screenshots/qa.png)
+
 ## HuggingDog <img src="public/logos/huggingdog.png" width="30" height="30" style="border-radius: 50%; vertical-align: middle; margin-left: 8px"/>
 
 #### Retrieve the daily papers + created models + uploaded datasets + launched spaces from HuggingFace. Also, the discussion and comments from HuggingDog.
 
-![HuggingDog](./public/screenshots/huggingdog.png)
+![HuggingDog](./public/screenshots/huggingdog_en.png)
 
 ## AskGitHub <img src="public/logos/askgithub.svg" width="30" height="30" style="border-radius: 50%; vertical-align: middle; margin-left: 8px"/>
 
@@ -97,6 +110,9 @@ Ask GitHub, you get:
 <a href="https://www.klingai.com" target="_blank">
   <img src="public/contributors/kling.png" width="50" height="50" style="border-radius: 50%"/>
 </a>
+<a href="https://www.01.ai" target="_blank">
+  <img src="public/contributors/01ai.png" width="50" height="50" style="border-radius: 50%"/>
+</a>
 
 # 快速开始
 
@@ -110,6 +126,12 @@ npm run dev
 2. 使用浏览器打开 [http://localhost:3000](http://localhost:3000) 查看结果。
 
 # 项目
+
+## Playground
+
+#### 一些炫酷的卡片动画，享受翻牌子的乐趣
+
+![Playground](./public/screenshots/qa_ch.png)
 
 ## HuggingDog <img src="public/logos/huggingdog.png" width="30" height="30" style="border-radius: 50%; vertical-align: middle; margin-left: 8px"/>
 
