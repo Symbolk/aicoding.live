@@ -6,9 +6,9 @@
 </div>
 
 
-## A collection of ideas totally implemented by AI. A live experiement, let's see how far they can go.
+## A collection of ideas totally implemented by AI. A live experiment, let's see how far they can go.
 
-> ### Human, do not touch the code! Let AI do all the things.
+> ### ⚠ Human, do not touch the code! Let AI do all the things.
 
 # Preview
 
