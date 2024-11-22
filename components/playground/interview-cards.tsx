@@ -112,6 +112,18 @@ export function InterviewCards() {
 
   return (
     <div className="relative h-full w-full flex flex-col items-center justify-center p-8">
+      <style jsx global>{`
+        .card-hover {
+          cursor: url('/cursors/grab_hand.png') 15 15, pointer;
+          transition: transform 0.2s;
+        }
+        
+        .card-hover:active {
+          cursor: url('/cursors/grab_hand.png') 15 15, pointer;
+          transform: scale(0.98);
+        }
+      `}</style>
+
       <div className="absolute inset-0 bg-gradient-to-br from-pink-200/50 via-purple-200/50 to-purple-300/50" />
       
       <div className="absolute bottom-0 right-0 w-64 h-64 pointer-events-none opacity-20">
@@ -148,9 +160,26 @@ export function InterviewCards() {
                   transition: { duration: 0.3 }
                 } : undefined}
                 transition={{ duration: 0.3 }}
-                className="absolute w-full h-full cursor-pointer"
+                className="absolute w-full h-full card-hover"
                 onClick={() => handleCardClick(questionIndex)}
                 style={{ zIndex: 50 - displayIndex }}
+                whileHover={{ 
+                  y: -8,
+                  scale: 1.02,
+                  transition: { 
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20
+                  }
+                }}
+                whileTap={{ 
+                  scale: 0.95,
+                  transition: { 
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 10
+                  }
+                }}
               >
                 {flippedIndex === questionIndex ? (
                   <motion.div
