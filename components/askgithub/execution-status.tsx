@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { Check, Loader2, ChevronRight } from 'lucide-react'
-import AnimatedShinyText from './ui/animated-shiny-text'
+import AnimatedShinyText from '../ui/animated-shiny-text'
 import { cn } from '@/lib/utils'
 
 export type ExecutionStage = 'thinking' | 'keywords' | 'searching' | 'summarizing'

@@ -14,8 +14,8 @@ interface Paper {
 }
 
 interface Model {
+  _id: string
   id: string
-  modelId: string
   downloads: number
   likes: number
   tags: string[]
@@ -23,8 +23,8 @@ interface Model {
 }
 
 interface Dataset {
+  _id: string
   id: string
-  name: string
   downloads: number
   likes: number
   tags: string[]
@@ -32,16 +32,29 @@ interface Dataset {
 }
 
 interface Space {
+  _id: string
   id: string
-  name: string
   likes: number
   tags: string[]
   createdAt: string
 }
 
-export async function fetchDailyPapers(date: Date): Promise<HFResponse<Paper>> {
-  const formattedDate = date.toISOString().split('T')[0]
-  const response = await fetch(`${HF_API_BASE}/api/daily_papers`, {
+interface DateRange {
+  from: Date
+  to: Date
+}
+
+export async function fetchDailyPapers(dateRange: DateRange): Promise<HFResponse<Paper>> {
+  const startDate = new Date(dateRange.from)
+  startDate.setHours(0, 0, 0, 0)
+  
+  const endDate = new Date(dateRange.to)
+  endDate.setHours(23, 59, 59, 999)
+
+  const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))
+  const limit = Math.max(100, daysDiff * 10)
+
+  const response = await fetch(`${HF_API_BASE}/api/daily_papers?limit=${limit}`, {
     headers: {
       'Authorization': `Bearer ${process.env.NEXT_PUBLIC_HF_API_TOKEN}`,
       'Content-Type': 'application/json',
@@ -53,11 +66,10 @@ export async function fetchDailyPapers(date: Date): Promise<HFResponse<Paper>> {
   }
   
   const data = await response.json()
-  console.log(data);
-  // 过滤出指定日期的论文
+  
   const filteredData = data.filter((paper: Paper) => {
-    const paperDate = new Date(paper.publishedAt).toISOString().split('T')[0]
-    return paperDate === formattedDate
+    const paperDate = new Date(paper.publishedAt)
+    return paperDate >= startDate && paperDate <= endDate
   })
   
   return {
@@ -66,9 +78,17 @@ export async function fetchDailyPapers(date: Date): Promise<HFResponse<Paper>> {
   }
 }
 
-export async function fetchNewModels(date: Date): Promise<HFResponse<Model>> {
-  const formattedDate = date.toISOString().split('T')[0]
-  const response = await fetch(`${HF_API_BASE}/api/models?sort=createdAt&direction=-1&limit=100`, {
+export async function fetchNewModels(dateRange: DateRange): Promise<HFResponse<Model>> {
+  const startDate = new Date(dateRange.from)
+  startDate.setHours(0, 0, 0, 0)
+  
+  const endDate = new Date(dateRange.to)
+  endDate.setHours(23, 59, 59, 999)
+
+  const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))
+  const limit = Math.max(100, daysDiff * 5)
+
+  const response = await fetch(`${HF_API_BASE}/api/models?sort=lastModified&direction=-1&limit=${limit}`, {
     headers: {
       'Authorization': `Bearer ${process.env.NEXT_PUBLIC_HF_API_TOKEN}`,
       'Content-Type': 'application/json',
@@ -80,12 +100,10 @@ export async function fetchNewModels(date: Date): Promise<HFResponse<Model>> {
   }
   
   const data = await response.json()
-  console.log(data);
-
-  // 过滤出指定日期创建的模型
+  
   const filteredData = data.filter((model: Model) => {
-    const modelDate = new Date(model.createdAt).toISOString().split('T')[0]
-    return modelDate === formattedDate
+    const modelDate = new Date(model.createdAt)
+    return modelDate >= startDate && modelDate <= endDate
   })
 
   return {
@@ -94,9 +112,17 @@ export async function fetchNewModels(date: Date): Promise<HFResponse<Model>> {
   }
 }
 
-export async function fetchNewDatasets(date: Date): Promise<HFResponse<Dataset>> {
-  const formattedDate = date.toISOString().split('T')[0]
-  const response = await fetch(`${HF_API_BASE}/api/datasets?sort=createdAt&direction=-1&limit=100`, {
+export async function fetchNewDatasets(dateRange: DateRange): Promise<HFResponse<Dataset>> {
+  const startDate = new Date(dateRange.from)
+  startDate.setHours(0, 0, 0, 0)
+  
+  const endDate = new Date(dateRange.to)
+  endDate.setHours(23, 59, 59, 999)
+
+  const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))
+  const limit = Math.max(100, daysDiff * 3)
+
+  const response = await fetch(`${HF_API_BASE}/api/datasets?sort=lastModified&direction=-1&limit=${limit}`, {
     headers: {
       'Authorization': `Bearer ${process.env.NEXT_PUBLIC_HF_API_TOKEN}`,
       'Content-Type': 'application/json',
@@ -108,12 +134,10 @@ export async function fetchNewDatasets(date: Date): Promise<HFResponse<Dataset>>
   }
   
   const data = await response.json()
-  console.log(data);
-
-  // 过滤出指定日期创建的数据集
+  
   const filteredData = data.filter((dataset: Dataset) => {
-    const datasetDate = new Date(dataset.createdAt).toISOString().split('T')[0]
-    return datasetDate === formattedDate
+    const datasetDate = new Date(dataset.createdAt)
+    return datasetDate >= startDate && datasetDate <= endDate
   })
 
   return {
@@ -122,9 +146,17 @@ export async function fetchNewDatasets(date: Date): Promise<HFResponse<Dataset>>
   }
 }
 
-export async function fetchNewSpaces(date: Date): Promise<HFResponse<Space>> {
-  const formattedDate = date.toISOString().split('T')[0]
-  const response = await fetch(`${HF_API_BASE}/api/spaces?sort=createdAt&direction=-1&limit=100`, {
+export async function fetchNewSpaces(dateRange: DateRange): Promise<HFResponse<Space>> {
+  const startDate = new Date(dateRange.from)
+  startDate.setHours(0, 0, 0, 0)
+  
+  const endDate = new Date(dateRange.to)
+  endDate.setHours(23, 59, 59, 999)
+
+  const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))
+  const limit = Math.max(100, daysDiff * 2)
+
+  const response = await fetch(`${HF_API_BASE}/api/spaces?sort=lastModified&direction=-1&limit=${limit}`, {
     headers: {
       'Authorization': `Bearer ${process.env.NEXT_PUBLIC_HF_API_TOKEN}`,
       'Content-Type': 'application/json',
@@ -136,12 +168,10 @@ export async function fetchNewSpaces(date: Date): Promise<HFResponse<Space>> {
   }
   
   const data = await response.json()
-  console.log(data);
-
-  // 过滤出指定日期创建的空间
+  
   const filteredData = data.filter((space: Space) => {
-    const spaceDate = new Date(space.createdAt).toISOString().split('T')[0]
-    return spaceDate === formattedDate
+    const spaceDate = new Date(space.createdAt)
+    return spaceDate >= startDate && spaceDate <= endDate
   })
 
   return {

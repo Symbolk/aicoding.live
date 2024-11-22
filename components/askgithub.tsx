@@ -4,10 +4,10 @@ import { useState, useCallback } from 'react'
 import { Button } from "@/components/askgithub/ui/button"
 import { Input } from "@/components/askgithub/ui/input"
 import { Card } from "@/components/askgithub/ui/card"
-import { completeSearch } from './actions'
+import { completeSearch } from './askgithub/actions'
 import { ArrowUpRight, Star, GitFork, Github, ChevronDown, ChevronUp } from 'lucide-react'
 import { useI18n } from '@/i18n/context'
-import { ExecutionStatus, ExecutionStage } from './execution-status'
+import { ExecutionStatus, ExecutionStage } from './askgithub/execution-status'
 import ReactMarkdown from 'react-markdown'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
