@@ -11,8 +11,6 @@ export default async function handler(
 
   try {
     const { papers, date, locale = 'zh' } = req.body
-    console.log(req.body);
-    
     const validLocale = locale === 'en' ? 'en' : 'zh'  // 确保 locale 只能是 'en' 或 'zh'
 
     // 首先对论文进行分类

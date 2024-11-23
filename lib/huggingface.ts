@@ -54,27 +54,37 @@ export async function fetchDailyPapers(dateRange: DateRange): Promise<HFResponse
   const daysDiff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24))
   const limit = Math.max(100, daysDiff * 10)
 
-  const response = await fetch(`${HF_API_BASE}/api/daily_papers?limit=${limit}`, {
-    headers: {
-      'Authorization': `Bearer ${process.env.NEXT_PUBLIC_HF_API_TOKEN}`,
-      'Content-Type': 'application/json',
+  try {
+    const response = await fetch(`${HF_API_BASE}/api/daily_papers?limit=${limit}`, {
+      headers: {
+        'Authorization': `Bearer ${process.env.NEXT_PUBLIC_HF_API_TOKEN}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Accept-Encoding': 'gzip, deflate, br'
+      }
+    })
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch papers: ${response.statusText}`)
     }
-  })
-  
-  if (!response.ok) {
-    throw new Error(`Failed to fetch papers: ${response.statusText}`)
-  }
-  
-  const data = await response.json()
-  
-  const filteredData = data.filter((paper: Paper) => {
-    const paperDate = new Date(paper.publishedAt)
-    return paperDate >= startDate && paperDate <= endDate
-  })
-  
-  return {
-    items: filteredData,
-    totalCount: filteredData.length
+    
+    const data = await response.json()
+    
+    const filteredData = data.filter((paper: Paper) => {
+      const paperDate = new Date(paper.publishedAt)
+      return paperDate >= startDate && paperDate <= endDate
+    })
+    
+    return {
+      items: filteredData,
+      totalCount: filteredData.length
+    }
+  } catch (error) {
+    console.error('Error fetching papers:', error)
+    return {
+      items: [],
+      totalCount: 0
+    }
   }
 }
 

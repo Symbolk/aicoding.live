@@ -28,6 +28,7 @@ import {
 import Image from 'next/image'
 import { useCallback, useEffect, useRef, useState } from "react"
 import { DateRange } from "react-day-picker"
+import { IntroPage } from '@/components/huggingdog/intro-page'
 
 interface WordData {
   text: string;
@@ -204,7 +205,7 @@ export function HuggingDog() {
   const [papers, setPapers] = useState<any[]>([])
   const [generatedPosts, setGeneratedPosts] = useState<Post[]>([])
   const [isGenerating, setIsGenerating] = useState(false)
-  const [showInitDialog, setShowInitDialog] = useState(true)
+  const [showInitDialog, setShowInitDialog] = useState(false)
   const goButtonRef = useRef<HTMLButtonElement>(null)
 
   const fetchData = useCallback(async () => {
@@ -343,6 +344,10 @@ export function HuggingDog() {
       const to = new Date(Math.max(range.from.getTime(), range.to.getTime()))
       setDateRange({ from, to })
       setDateModified(true)
+      // 自动触发数据获取
+      setTimeout(() => {
+        goButtonRef.current?.click()
+      }, 0)
     } else {
       // 如果只选择了一个日期，保持类型一致
       setDateRange({
@@ -353,11 +358,11 @@ export function HuggingDog() {
     }
   }
 
-  const handleGoDog = () => {
+  const handleGoDog = useCallback(() => {
     if (dateModified && dateRange.from && dateRange.to) {
       fetchData()
     }
-  }
+  }, [dateModified, dateRange, fetchData]) // 添加依赖项
 
   const handleRetweet = (id: number) => {
     setRetweetedReports(prev => 
@@ -391,219 +396,176 @@ export function HuggingDog() {
   const dateLocale = locale === 'en' ? enUS : zhCN
   const dateFormat = locale === 'en' ? "MMM dd, yyyy" : "yyyy年MM月dd日"
 
+  // 添加选择今天的处理函数
+  const handleSelectToday = () => {
+    const today = new Date()
+    const range = {
+      from: today,
+      to: today
+    }
+    setDateRange(range)
+    setDateModified(true)
+    // 自动触发数据获取
+    setTimeout(() => {
+      goButtonRef.current?.click()
+    }, 0)
+  }
+
   return (
     <>
-      {showInitDialog && (
-        <InitDialog onDateSelect={handleInitialDateSelect} />
-      )}
       <div className="flex w-full gap-2">
         <div className="flex-1">
-          <div className="flex-1 space-y-4">
-            <Tabs defaultValue="overview" className="space-y-4">
-              <div className="flex justify-between items-center">
-                <TabsList>
-                  <TabsTrigger value="overview">{t('huggingdog.overview')}</TabsTrigger>
-                  <TabsTrigger value="reports">{t('huggingdog.reports')}</TabsTrigger>
-                </TabsList>
-              </div>
-              <TabsContent value="overview">
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                  <motion.div
-                    initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
-                    animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.1 }}
-                    whileHover={{ 
-                      y: -8,  // 向上浮动
-                      scale: 1.02,  // 轻微放大
-                      transition: { 
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 20
-                      }
-                    }}
-                  >
-                    <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 hover:shadow-lg hover:border-gray-300">
-                      <CardContent className="p-6">
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-1">
-                            <p className="text-sm font-medium text-gray-500">{t('huggingdog.dailyPapers')}</p>
-                            <p className="text-2xl font-bold">+{stats.papers}</p>
-                          </div>
-                          <FileText className="h-4 w-4 text-gray-400" />
-                        </div>
-                        <p className="text-xs text-gray-500">{t('huggingdog.fromLastMonth')}</p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                  
-                  <motion.div
-                    initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
-                    animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    whileHover={{ 
-                      y: -8,
-                      scale: 1.02,
-                      transition: { 
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 20
-                      }
-                    }}
-                  >
-                    <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 hover:shadow-lg hover:border-gray-300">
-                      <CardContent className="p-6">
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-1">
-                            <p className="text-sm font-medium text-gray-500">{t('huggingdog.createdModels')}</p>
-                            <p className="text-2xl font-bold">+{stats.models}</p>
-                          </div>
-                          <Cpu className="h-4 w-4 text-gray-400" />
-                        </div>
-                        <p className="text-xs text-gray-500">{t('huggingdog.monthlyIncrease')}</p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                  
-                  <motion.div
-                    initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
-                    animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.3 }}
-                    whileHover={{ 
-                      y: -8,
-                      scale: 1.02,
-                      transition: { 
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 20
-                      }
-                    }}
-                  >
-                    <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 hover:shadow-lg hover:border-gray-300">
-                      <CardContent className="p-6">
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-1">
-                            <p className="text-sm font-medium text-gray-500">{t('huggingdog.uploadedDatasets')}</p>
-                            <p className="text-2xl font-bold">+{stats.datasets}</p>
-                          </div>
-                          <Database className="h-4 w-4 text-gray-400" />
-                        </div>
-                        <p className="text-xs text-gray-500">{t('huggingdog.monthlyDataIncrease')}</p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                  
-                  <motion.div
-                    initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
-                    animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.4 }}
-                    whileHover={{ 
-                      y: -8,
-                      scale: 1.02,
-                      transition: { 
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 20
-                      }
-                    }}
-                  >
-                    <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 hover:shadow-lg hover:border-gray-300">
-                      <CardContent className="p-6">
-                        <div className="flex items-center justify-between">
-                          <div className="space-y-1">
-                            <p className="text-sm font-medium text-gray-500">{t('huggingdog.launchedSpaces')}</p>
-                            <p className="text-2xl font-bold">+{stats.spaces}</p>
-                          </div>
-                          <Layout className="h-4 w-4 text-gray-400" />
-                        </div>
-                        <p className="text-xs text-gray-500">{t('huggingdog.sinceLastHour')}</p>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
+          {!dateRange.from && !dateRange.to ? (
+            <IntroPage />
+          ) : (
+            <div className="flex-1 space-y-4">
+              <Tabs defaultValue="overview" className="space-y-4">
+                <div className="flex justify-between items-center">
+                  <TabsList>
+                    <TabsTrigger value="overview">{t('huggingdog.overview')}</TabsTrigger>
+                    <TabsTrigger value="reports">{t('huggingdog.reports')}</TabsTrigger>
+                  </TabsList>
                 </div>
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 mt-4">
-                  <motion.div
-                    className="col-span-4 h-[500px]" // 增加容器高度从 400px 到 500px
-                    initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
-                    animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.5 }}
-                    whileHover={{ 
-                      y: -8,
-                      scale: 1.02,
-                      transition: { 
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 20
-                      }
-                    }}
-                  >
-                    <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 h-full hover:shadow-lg hover:border-gray-300">
-                      <CardContent className="p-6 h-full">
-                        <div className="flex items-center justify-between mb-4">
-                          <h3 className="text-lg font-medium">{t('huggingdog.topicTrends')}</h3>
-                        </div>
-                        <div className="h-[calc(100%-3rem)] overflow-hidden">
-                          {topics.length > 0 ? (
-                            <WordCloud words={topics} />
-                          ) : (
-                            <div className="h-full flex flex-col items-center justify-center">
-                              {loading ? (
-                                <>
-                                  <div className="text-4xl mb-4 animate-bounce">🔍</div>
-                                  <p className="text-gray-500 font-medium">{t('huggingdog.analyzing')}</p>
-                                </>
-                              ) : (
-                                <>
-                                  <div className="text-6xl mb-4 opacity-50">📊</div>
-                                  <p className="text-gray-500 font-medium">{t('huggingdog.noTopicData')}</p>
-                                </>
-                              )}
+                <TabsContent value="overview">
+                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                    <motion.div
+                      initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
+                      animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 0.1 }}
+                      whileHover={{ 
+                        y: -8,  // 向上浮动
+                        scale: 1.02,  // 轻微放大
+                        transition: { 
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 20
+                        }
+                      }}
+                    >
+                      <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 hover:shadow-lg hover:border-gray-300">
+                        <CardContent className="p-6">
+                          <div className="flex items-center justify-between">
+                            <div className="space-y-1">
+                              <p className="text-sm font-medium text-gray-500">{t('huggingdog.dailyPapers')}</p>
+                              <p className="text-2xl font-bold">+{stats.papers}</p>
                             </div>
-                          )}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-
-                  <motion.div
-                    className="col-span-3 h-[500px]" // 调整高度以匹配
-                    initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
-                    animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
-                    transition={{ duration: 0.8, delay: 0.6 }}
-                    whileHover={{ 
-                      y: -8,
-                      scale: 1.02,
-                      transition: { 
-                        type: "spring",
-                        stiffness: 300,
-                        damping: 20
-                      }
-                    }}
-                  >
-                    <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 h-full hover:shadow-lg hover:border-gray-300">
-                      <CardContent className="p-6 h-full flex flex-col">
-                        <div className="flex items-center justify-between mb-4">
-                          <h3 className="text-lg font-medium">{t('huggingdog.hotTopics')}</h3>
-                          <p className="text-sm text-gray-500">{t('huggingdog.summarizedByAI')}</p>
-                        </div>
-                        <div className="flex-1 overflow-y-auto">
-                          <div className="space-y-4">
+                            <FileText className="h-4 w-4 text-gray-400" />
+                          </div>
+                          <p className="text-xs text-gray-500">{t('huggingdog.fromLastMonth')}</p>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                    
+                    <motion.div
+                      initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
+                      animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 0.2 }}
+                      whileHover={{ 
+                        y: -8,
+                        scale: 1.02,
+                        transition: { 
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 20
+                        }
+                      }}
+                    >
+                      <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 hover:shadow-lg hover:border-gray-300">
+                        <CardContent className="p-6">
+                          <div className="flex items-center justify-between">
+                            <div className="space-y-1">
+                              <p className="text-sm font-medium text-gray-500">{t('huggingdog.createdModels')}</p>
+                              <p className="text-2xl font-bold">+{stats.models}</p>
+                            </div>
+                            <Cpu className="h-4 w-4 text-gray-400" />
+                          </div>
+                          <p className="text-xs text-gray-500">{t('huggingdog.monthlyIncrease')}</p>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                    
+                    <motion.div
+                      initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
+                      animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 0.3 }}
+                      whileHover={{ 
+                        y: -8,
+                        scale: 1.02,
+                        transition: { 
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 20
+                        }
+                      }}
+                    >
+                      <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 hover:shadow-lg hover:border-gray-300">
+                        <CardContent className="p-6">
+                          <div className="flex items-center justify-between">
+                            <div className="space-y-1">
+                              <p className="text-sm font-medium text-gray-500">{t('huggingdog.uploadedDatasets')}</p>
+                              <p className="text-2xl font-bold">+{stats.datasets}</p>
+                            </div>
+                            <Database className="h-4 w-4 text-gray-400" />
+                          </div>
+                          <p className="text-xs text-gray-500">{t('huggingdog.monthlyDataIncrease')}</p>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                    
+                    <motion.div
+                      initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
+                      animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 0.4 }}
+                      whileHover={{ 
+                        y: -8,
+                        scale: 1.02,
+                        transition: { 
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 20
+                        }
+                      }}
+                    >
+                      <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 hover:shadow-lg hover:border-gray-300">
+                        <CardContent className="p-6">
+                          <div className="flex items-center justify-between">
+                            <div className="space-y-1">
+                              <p className="text-sm font-medium text-gray-500">{t('huggingdog.launchedSpaces')}</p>
+                              <p className="text-2xl font-bold">+{stats.spaces}</p>
+                            </div>
+                            <Layout className="h-4 w-4 text-gray-400" />
+                          </div>
+                          <p className="text-xs text-gray-500">{t('huggingdog.sinceLastHour')}</p>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  </div>
+                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 mt-4">
+                    <motion.div
+                      className="col-span-4 h-[500px]" // 增加容器高度从 400px 到 500px
+                      initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
+                      animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 0.5 }}
+                      whileHover={{ 
+                        y: -8,
+                        scale: 1.02,
+                        transition: { 
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 20
+                        }
+                      }}
+                    >
+                      <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 h-full hover:shadow-lg hover:border-gray-300">
+                        <CardContent className="p-6 h-full">
+                          <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-lg font-medium">{t('huggingdog.topicTrends')}</h3>
+                          </div>
+                          <div className="h-[calc(100%-3rem)] overflow-hidden">
                             {topics.length > 0 ? (
-                              topics.map((topic, index) => (
-                                <div key={index} className="w-full">
-                                  <div className="flex justify-between items-center mb-1">
-                                    <p className="text-sm font-medium">{topic.text}</p>
-                                    <span className="text-sm text-gray-500">{t('huggingdog.score')}: {topic.value}</span>
-                                  </div>
-                                  <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                    <div
-                                      className="bg-blue-600 h-2.5 rounded-full"
-                                      style={{ width: `${(topic.value / Math.max(...topics.map(t => t.value))) * 100}%` }}
-                                    ></div>
-                                  </div>
-                                </div>
-                              ))
+                              <WordCloud words={topics} />
                             ) : (
-                              <div className="h-[300px] flex flex-col items-center justify-center">
+                              <div className="h-full flex flex-col items-center justify-center">
                                 {loading ? (
                                   <>
                                     <div className="text-4xl mb-4 animate-bounce">🔍</div>
@@ -618,25 +580,84 @@ export function HuggingDog() {
                               </div>
                             )}
                           </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                </div>
-              </TabsContent>
-              <TabsContent value="reports">
-                <div className="grid gap-8 md:grid-cols-1 max-w-3xl mx-auto">
-                  {dateRange.from && dateRange.to && papers.length > 0 && (
-                    <DiscussionThread 
-                      posts={generatedPosts}
-                      loading={isGenerating}
-                      locale={locale}
-                    />
-                  )}
-                </div>
-              </TabsContent>
-            </Tabs>
-          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+
+                    <motion.div
+                      className="col-span-3 h-[500px]" // 调整高度以匹配
+                      initial={{ backdropFilter: "blur(10px)", opacity: 0 }}
+                      animate={{ backdropFilter: "blur(0px)", opacity: 1 }}
+                      transition={{ duration: 0.8, delay: 0.6 }}
+                      whileHover={{ 
+                        y: -8,
+                        scale: 1.02,
+                        transition: { 
+                          type: "spring",
+                          stiffness: 300,
+                          damping: 20
+                        }
+                      }}
+                    >
+                      <Card className="bg-white/80 backdrop-blur-sm hover:backdrop-blur-none transition-all duration-300 h-full hover:shadow-lg hover:border-gray-300">
+                        <CardContent className="p-6 h-full flex flex-col">
+                          <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-lg font-medium">{t('huggingdog.hotTopics')}</h3>
+                            <p className="text-sm text-gray-500">{t('huggingdog.summarizedByAI')}</p>
+                          </div>
+                          <div className="flex-1 overflow-y-auto">
+                            <div className="space-y-4">
+                              {topics.length > 0 ? (
+                                topics.map((topic, index) => (
+                                  <div key={index} className="w-full">
+                                    <div className="flex justify-between items-center mb-1">
+                                      <p className="text-sm font-medium">{topic.text}</p>
+                                      <span className="text-sm text-gray-500">{t('huggingdog.score')}: {topic.value}</span>
+                                    </div>
+                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                      <div
+                                        className="bg-blue-600 h-2.5 rounded-full"
+                                        style={{ width: `${(topic.value / Math.max(...topics.map(t => t.value))) * 100}%` }}
+                                      ></div>
+                                    </div>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="h-[300px] flex flex-col items-center justify-center">
+                                  {loading ? (
+                                    <>
+                                      <div className="text-4xl mb-4 animate-bounce">🔍</div>
+                                      <p className="text-gray-500 font-medium">{t('huggingdog.analyzing')}</p>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <div className="text-6xl mb-4 opacity-50">📊</div>
+                                      <p className="text-gray-500 font-medium">{t('huggingdog.noTopicData')}</p>
+                                    </>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  </div>
+                </TabsContent>
+                <TabsContent value="reports">
+                  <div className="grid gap-8 md:grid-cols-1 max-w-3xl mx-auto">
+                    {dateRange.from && dateRange.to && papers.length > 0 && (
+                      <DiscussionThread 
+                        posts={generatedPosts}
+                        loading={isGenerating}
+                        locale={locale}
+                      />
+                    )}
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </div>
+          )}
         </div>
 
         <div className="w-[268px] flex flex-col border rounded-lg p-4 bg-white/80 backdrop-blur-sm relative min-h-[600px]">
@@ -690,10 +711,19 @@ export function HuggingDog() {
               </div>
             }
           />
+
+          <Button 
+            variant="outline" 
+            onClick={handleSelectToday}
+            className="mt-4 mb-2 flex items-center justify-center space-x-2 hover:bg-gray-100"
+          >
+            <span>📅</span>
+            <span>{t('huggingdog.selectToday')}</span>
+          </Button>
           
           <Button 
             ref={goButtonRef}
-            className="mt-4 w-full bg-[#FF4B4B] hover:bg-[#FF4B4B] text-white font-medium py-2 px-4 rounded-lg"
+            className="mb-4 w-full bg-[#FF4B4B] hover:bg-[#FF4B4B] text-white font-medium py-2 px-4 rounded-lg"
             onClick={handleGoDog}
             disabled={!dateModified || loading}
           >
@@ -707,15 +737,15 @@ export function HuggingDog() {
             )}
           </Button>
 
-          <div className="absolute bottom-0 left-0 right-0 h-[200px] flex justify-center items-end pointer-events-none">
+          <div className="absolute bottom-0 left-0 right-0 h-[160px] flex justify-center items-end pointer-events-none"> {/* 减小度 */}
             <div className="relative w-full h-full">
               <div className="absolute bottom-0 left-0 right-0 h-[40px] bg-gradient-to-t from-white/80 to-transparent"></div>
               <div className="absolute bottom-0 left-0 right-0 flex justify-center">
                 <Image
                   src="/illustrations/dog_walking.svg"
                   alt="Dog Walking"
-                  width={200}
-                  height={200}
+                  width={160} // 减小宽度
+                  height={160} // 减小高度
                   className="opacity-20"
                   priority
                 />
