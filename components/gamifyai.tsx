@@ -20,7 +20,8 @@ import {
   Share,
   Sparkles,
   SquareTerminal,
-  Trash2
+  Trash2,
+  ChevronDown
 } from "lucide-react"
 
 import {
@@ -430,11 +431,18 @@ export function GamifyAI() {
               <SidebarMenuItem>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="w-[180px]">
-                      <span className="flex items-center">
-                        <Code2 className="w-4 h-4 mr-2" />
-                        {t('contributors.title')}
-                      </span>
+                    <Button variant="ghost" size="sm" className="w-[180px] flex items-center justify-between">
+                      <div className="flex items-center">
+                        <Avatar className="h-8 w-8 mr-2">
+                          <AvatarImage src="/avatars/conductor.png" alt="Symbolk" />
+                          <AvatarFallback>SY</AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col items-start">
+                          <span className="text-sm font-medium">Symbolk</span>
+                          <span className="text-xs text-gray-500">symbolk@163.com</span>
+                        </div>
+                      </div>
+                      <ChevronDown className="h-4 w-4 opacity-50" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-[180px]">

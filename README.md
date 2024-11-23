@@ -22,7 +22,7 @@
   <img src="public/contributors/cursor.png" width="50" height="50" style="border-radius: 50%"/>
 </a>
 <a href="https://claude.ai" target="_blank">
-  <img src="https://www.appengine.ai/uploads/images/profile/logo/Anthropic-AI.png" width="50" height="50" style="border-radius: 50%"/>
+  <img src="public/contributors/claude.png" width="50" height="50" style="border-radius: 50%"/>
 </a>
 <a href="https://v0.dev" target="_blank">
   <img src="public/contributors/v0.png" width="50" height="50" style="border-radius: 50%"/>
