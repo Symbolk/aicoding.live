@@ -167,7 +167,7 @@ export function LiveBook() {
                             className="w-full bg-blue-600 hover:bg-blue-700 transition-colors h-10 text-base font-medium"
                             onClick={handleGenerateScript}
                           >
-                            {loading ? t('livebook.generating') : t('livebook.liveButton')}
+                            {loading ? t('livebook.scriptGenerating') : t('livebook.liveButton')}
                           </Button>
                         </div>
                       </div>
