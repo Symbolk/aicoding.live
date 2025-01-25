@@ -2,6 +2,8 @@ import { IMAGES } from "../constants";
 
 export default {
   common: {
+    brand: "abab.ai",
+    enterprise: "A(ccelarate) B(usiness) with A(I) B(uilders)",
     platform: "平台",
     projects: "项目",
     support: "支持",
@@ -16,7 +18,6 @@ export default {
     viewProject: "查看项目",
     shareProject: "分享项目",
     deleteProject: "删除项目",
-    enterprise: "Gamify Everything with AI",
     general: "通用",
     team: "团队",
     limits: "限制",
@@ -218,7 +219,7 @@ export default {
     }
   },
   contributors: {
-    title: 'AI贡献者',
+    title: 'AI Builders',
     roles: {
       development: '开发',
       architecture: '架构',

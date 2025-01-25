@@ -88,8 +88,8 @@ type PageType = 'playground' | 'huggingdog' | 'askgithub' | 'livebook'
 
 const data = {
   user: {
-    name: "Symbolk",
-    email: "symbolk@163.com",
+    name: "ABAB.AI",
+    email: "abab.ai@outlook.com",
     avatar: "/avatars/conductor.png",
   },
   navMain: [
@@ -176,10 +176,11 @@ const data = {
 }
 
 export function GamifyAI() {
-  const [currentPage, setCurrentPage] = useState<PageType>('huggingdog')
-  const { locale, setLocale, t } = useI18n()
-  const [open, setOpen] = useState(false)
+  const { t, locale, setLocale } = useI18n()
+  const [currentPage, setCurrentPage] = useState<PageType>('playground')
+  const [isOpen, setOpen] = useState(false)
   const confettiRef = useRef<any>(null)
+  const [isConfettiActive, setIsConfettiActive] = useState(false)
 
   // 触发 Confetti 效果的函数
   const fireConfetti = useCallback(() => {
@@ -218,9 +219,8 @@ export function GamifyAI() {
 
   // 修改命令选择处理函数
   const handleCommandSelect = (value: string) => {
-    if (value === 'huggingdog' || value === 'askgithub' || value === 'livebook') {
-      handlePageChange(value as PageType)
-    }
+    // 处理命令选择
+    console.log('Selected:', value)
   }
 
   // 渲染当前页面内容
@@ -245,41 +245,29 @@ export function GamifyAI() {
   return (
     <>
       <CommandMenu 
-        open={open} 
-        setOpen={setOpen} 
-        onSelect={handleCommandSelect} 
-      />
-      <Confetti
-        ref={confettiRef}
-        style={{
-          position: 'fixed',
-          pointerEvents: 'none',
-          width: '100%',
-          height: '100%',
-          top: 0,
-          left: 0,
-          zIndex: 999
-        }}
-        manualstart
+        open={isOpen} 
+        setOpen={setOpen}
+        onSelect={handleCommandSelect}
       />
       <SidebarProvider>
-        <Sidebar variant="inset">
-          <SidebarHeader>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton size="lg" asChild>
-                  <a href="#">
-                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                      <Gamepad2 className="size-4" />
-                    </div>
-                    <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">GamifyAI</span>
-                      <span className="truncate text-xs">{t('common.enterprise')}</span>
-                    </div>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
+        <Sidebar className="top-0 bottom-0 left-0">
+          <SidebarHeader className="border-b h-[60px] flex-none p-4">
+            <div className="flex items-center gap-2">
+              <Image
+                src="/logos/abab.jpg"
+                alt="abab.ai"
+                width={32}
+                height={32}
+                className="rounded-lg"
+              />
+              <div className="flex flex-col">
+                <span className="font-semibold">abab.ai</span>
+                <span className="text-xs text-gray-500 whitespace-pre-line leading-tight">
+                  A(ccelarate) B(usiness)<br />
+                  with AI B(uilders)
+                </span>
+              </div>
+            </div>
           </SidebarHeader>
           <SidebarContent>
             <SidebarGroup>
@@ -434,12 +422,12 @@ export function GamifyAI() {
                     <Button variant="ghost" size="sm" className="w-[180px] flex items-center justify-between">
                       <div className="flex items-center">
                         <Avatar className="h-8 w-8 mr-2">
-                          <AvatarImage src="/avatars/conductor.png" alt="Symbolk" />
+                          <AvatarImage src="/avatars/conductor.png" alt="" />
                           <AvatarFallback>SY</AvatarFallback>
                         </Avatar>
                         <div className="flex flex-col items-start">
-                          <span className="text-sm font-medium">Symbolk</span>
-                          <span className="text-xs text-gray-500">symbolk@163.com</span>
+                          <span className="text-sm font-medium">ABAB</span>
+                          <span className="text-xs text-gray-500">abab.ai@outlook.com</span>
                         </div>
                       </div>
                       <ChevronDown className="h-4 w-4 opacity-50" />

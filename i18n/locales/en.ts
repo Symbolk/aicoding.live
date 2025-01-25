@@ -2,6 +2,8 @@ import { IMAGES } from "../constants";
 
 export default {
   common: {
+    brand: "abab.ai",
+    enterprise: "A(ccelarate) B(usiness) with A(I) B(uilders)",
     platform: "Platform",
     projects: "Projects",
     support: "Support",
@@ -16,7 +18,6 @@ export default {
     viewProject: "View Project",
     shareProject: "Share Project",
     deleteProject: "Delete Project",
-    enterprise: "Gamify Everything with AI",
     general: "General",
     team: "Team",
     limits: "Limits",

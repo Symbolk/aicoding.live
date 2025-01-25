@@ -15,8 +15,13 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "GamifyAI",
-  description: "GamifyAI",
+  title: "abab.ai",
+  description: "A(ccelarate) B(usiness) with A(I) B(uilders)",
+  viewport: "width=device-width, initial-scale=1",
+  openGraph: {
+    title: "abab.ai",
+    description: "A(ccelarate) B(usiness)\nwith AI B(uilders)",
+  }
 };
 
 export default function RootLayout({
