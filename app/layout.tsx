@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   viewport: "width=device-width, initial-scale=1",
   openGraph: {
     title: "abab.ai",
-    description: "A(ccelarate) B(usiness)\nwith AI B(uilders)",
+    description: "A(ccelarate) B(usiness)\nwith A(I) B(uilders)",
   }
 };
 

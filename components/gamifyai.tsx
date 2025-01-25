@@ -264,7 +264,7 @@ export function GamifyAI() {
                 <span className="font-semibold">abab.ai</span>
                 <span className="text-xs text-gray-500 whitespace-pre-line leading-tight">
                   A(ccelarate) B(usiness)<br />
-                  with AI B(uilders)
+                  with A(I) B(uilders)
                 </span>
               </div>
             </div>
