@@ -1,5 +1,5 @@
-import { GamifyAI } from "@/components/gamifyai"
+import { DashboardComponent } from "@/components/dashboard"
 
 export default function Home() {
-  return <GamifyAI />
+  return <DashboardComponent />
 }
