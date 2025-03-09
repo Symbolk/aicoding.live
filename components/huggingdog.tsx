@@ -660,57 +660,59 @@ export function HuggingDog() {
           )}
         </div>
 
-        <div className="w-[268px] flex flex-col border rounded-lg p-4 bg-white/80 backdrop-blur-sm relative min-h-[600px]">
-          <Calendar
-            mode="range"
-            selected={dateRange}
-            onSelect={handleDateRangeChange}
-            numberOfMonths={1}
-            disabled={{ 
-              after: new Date(),
-              before: new Date(new Date().setFullYear(new Date().getFullYear() - 1))
-            }}
-            className="w-full [&_.rdp]:w-full [&_.rdp-months]:w-full [&_.rdp-month]:w-full [&_.rdp-table]:w-full [&_.rdp-cell]:flex [&_.rdp-cell]:justify-center [&_.rdp-head_cell]:w-full [&_.rdp-button]:w-10 [&_.rdp-button]:h-10 [&_.rdp-nav]:w-full [&_.rdp-caption]:w-full [&_.rdp-caption_start]:w-full [&_.rdp-caption_end]:w-full"
-            defaultMonth={dateRange.from || new Date()}
-            footer={
-              <div className="mt-4 text-sm text-gray-500 space-y-2">
-                {!dateRange.from && !dateRange.to && (
-                  <div className="flex flex-col items-center">
-                    <div className="text-4xl mb-2 opacity-50">📅</div>
-                    <p className="text-center font-medium">{t('huggingdog.selectDateRange')}</p>
-                  </div>
-                )}
-                {dateRange.from && !dateRange.to && (
-                  <div className="flex flex-col items-center">
-                    <div className="text-4xl mb-2 opacity-50">📆</div>
-                    <p className="text-center font-medium">{t('huggingdog.selectEndDate')}</p>
-                  </div>
-                )}
-                {dateRange.from && dateRange.to && (
-                  <div className="space-y-2">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-lg">📅</span>
-                      <span className="font-medium">{t('huggingdog.from')}:</span>
-                      <span>{format(dateRange.from, dateFormat, { locale: dateLocale })}</span>
+        <div className="w-[300px] flex flex-col border rounded-lg p-4 bg-white/80 backdrop-blur-sm relative min-h-[600px] overflow-hidden">
+          <div className="overflow-x-hidden">
+            <Calendar
+              mode="range"
+              selected={dateRange}
+              onSelect={handleDateRangeChange}
+              numberOfMonths={1}
+              disabled={{ 
+                after: new Date(),
+                before: new Date(new Date().setFullYear(new Date().getFullYear() - 1))
+              }}
+              className="w-full [&_.rdp]:w-full [&_.rdp-months]:w-full [&_.rdp-month]:w-full [&_.rdp-table]:w-full [&_.rdp-cell]:flex [&_.rdp-cell]:justify-center [&_.rdp-head_cell]:w-full [&_.rdp-button]:w-7 [&_.rdp-button]:h-7 [&_.rdp-nav]:w-full [&_.rdp-caption]:w-full [&_.rdp-caption_start]:w-full [&_.rdp-caption_end]:w-full [&_.rdp-day_selected]:text-xs [&_.rdp-day]:text-xs [&_.rdp-head_cell]:text-xs"
+              defaultMonth={dateRange.from || new Date()}
+              footer={
+                <div className="mt-4 text-sm text-gray-500 space-y-2">
+                  {!dateRange.from && !dateRange.to && (
+                    <div className="flex flex-col items-center">
+                      <div className="text-4xl mb-2 opacity-50">📅</div>
+                      <p className="text-center font-medium">{t('huggingdog.selectDateRange')}</p>
                     </div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-lg">📆</span>
-                      <span className="font-medium">{t('huggingdog.to')}:</span>
-                      <span>{format(dateRange.to, dateFormat, { locale: dateLocale })}</span>
+                  )}
+                  {dateRange.from && !dateRange.to && (
+                    <div className="flex flex-col items-center">
+                      <div className="text-4xl mb-2 opacity-50">📆</div>
+                      <p className="text-center font-medium">{t('huggingdog.selectEndDate')}</p>
                     </div>
-                    <div className="flex items-center justify-center text-xs text-gray-400 mt-2">
-                      <span className="flex items-center space-x-1">
-                        <span className="text-base">📊</span>
-                        <span>{t('huggingdog.total')}</span>
-                        <span className="font-medium text-sm">{differenceInDays(dateRange.to, dateRange.from) + 1}</span>
-                        <span>{t('huggingdog.days')}</span>
-                      </span>
+                  )}
+                  {dateRange.from && dateRange.to && (
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <span className="text-lg">📅</span>
+                        <span className="font-medium">{t('huggingdog.from')}:</span>
+                        <span>{format(dateRange.from, dateFormat, { locale: dateLocale })}</span>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-lg">📆</span>
+                        <span className="font-medium">{t('huggingdog.to')}:</span>
+                        <span>{format(dateRange.to, dateFormat, { locale: dateLocale })}</span>
+                      </div>
+                      <div className="flex items-center justify-center text-xs text-gray-400 mt-2">
+                        <span className="flex items-center space-x-1">
+                          <span className="text-base">📊</span>
+                          <span>{t('huggingdog.total')}</span>
+                          <span className="font-medium text-sm">{differenceInDays(dateRange.to, dateRange.from) + 1}</span>
+                          <span>{t('huggingdog.days')}</span>
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            }
-          />
+                  )}
+                </div>
+              }
+            />
+          </div>
 
           <Button 
             variant="outline" 
@@ -737,15 +739,15 @@ export function HuggingDog() {
             )}
           </Button>
 
-          <div className="absolute bottom-0 left-0 right-0 h-[160px] flex justify-center items-end pointer-events-none"> {/* 减小度 */}
+          <div className="absolute bottom-0 left-0 right-0 h-[120px] flex justify-center items-end pointer-events-none"> 
             <div className="relative w-full h-full">
               <div className="absolute bottom-0 left-0 right-0 h-[40px] bg-gradient-to-t from-white/80 to-transparent"></div>
               <div className="absolute bottom-0 left-0 right-0 flex justify-center">
                 <Image
                   src="/illustrations/dog_walking.svg"
                   alt="Dog Walking"
-                  width={160} // 减小宽度
-                  height={160} // 减小高度
+                  width={120}
+                  height={120}
                   className="opacity-20"
                   priority
                 />
