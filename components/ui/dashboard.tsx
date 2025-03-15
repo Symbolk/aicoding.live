@@ -164,7 +164,7 @@ export function Dashboard({
             <div>
               <h1 className="text-3xl font-bold">{locale === 'zh' ? '仪表盘' : 'Dashboard'}</h1>
               <p className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
-                {locale === 'zh' ? '加速构建智能化业务' : 'Accelerate the Building of Agentic Business'}
+                {locale === 'zh' ? '万物皆可智能化' : 'Everything can be Agentified'}
               </p>
             </div>
             <div className="flex items-center space-x-4">
@@ -258,13 +258,25 @@ export function AgentCard({
         text: 'text-white',
         stroke: theme === 'dark' ? 'stroke-white' : 'stroke-white'
       };
-    } else {
+    } else if (bgColor.includes('yellow')) {
       return {
-        bg: theme === 'dark' ? 'bg-blue-500' : 'bg-blue-500',
+        bg: theme === 'dark' ? 'bg-yellow-500' : 'bg-yellow-500',
         text: 'text-white',
         stroke: theme === 'dark' ? 'stroke-white' : 'stroke-white'
       };
-    }
+    } else if (bgColor.includes('red')) {
+      return {
+        bg: theme === 'dark' ? 'bg-red-500' : 'bg-red-500',
+        text: 'text-white',
+        stroke: theme === 'dark' ? 'stroke-white' : 'stroke-white'
+      };
+    } else {
+      return {
+        bg: theme === 'dark' ? 'bg-red-500' : 'bg-red-500',
+        text: 'text-white',
+        stroke: theme === 'dark' ? 'stroke-white' : 'stroke-white'
+      };
+    } 
   };
   
   const buttonColors = getButtonColors();

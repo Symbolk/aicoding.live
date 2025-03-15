@@ -33,7 +33,7 @@ export default {
     interviewQuestion: "面试题",
     interviewAnswer: "参考答案",
     interview: {
-      loading: '正在加载面试题...',
+      loading: '正在加载...',
       remainingCards: '剩余卡片',
       showAnswer: '查看答案',
       backToQuestion: '返回问题',

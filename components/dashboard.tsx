@@ -16,13 +16,16 @@ import {
   Box,
   Palette,
   Image as ImageIcon,
-  Code2
+  Code2,
+  Clock
 } from "lucide-react";
 import { Dashboard as DashboardLayout, AgentCard, StatsCard, ScheduleCard } from "./ui/dashboard";
 import { HuggingDog } from "./huggingdog";
 import { AskGitHub } from "./askgithub";
 import { LiveBook } from "./livebook";
 import { InterviewCards } from "./playground/interview-cards";
+import { ChatEditor } from "./chateditor";
+import { EmojiLock } from "./emojilock";
 import { useI18n } from "@/i18n/context";
 import { motion } from "framer-motion";
 import { AvatarGroup } from "./ui/avatar-group";
@@ -30,16 +33,8 @@ import Link from "next/link";
 import { useTheme } from "@/components/theme-provider";
 
 // 定义Agent类型
-export type AgentType = "huggingdog" | "askgithub" | "livebook" | "playground";
+export type AgentType = "huggingdog" | "askgithub" | "livebook" | "playground" | "chateditor" | "emojilock";
 
-// 团队成员数据
-const teamMembers = [
-  { alt: "Alex", fallback: "A" },
-  { alt: "Bella", fallback: "B" },
-  { alt: "Carlos", fallback: "C" },
-  { alt: "Diana", fallback: "D" },
-  { alt: "Ethan", fallback: "E" },
-];
 
 // 从contributors.tsx导入的贡献者数据
 const contributorsByRole = {
@@ -136,6 +131,10 @@ export function DashboardComponent() {
         return <LiveBook />;
       case "playground":
         return <InterviewCards />;
+      case "chateditor":
+        return <ChatEditor />;
+      case "emojilock":
+        return <EmojiLock />;
       default:
         return null;
     }
@@ -194,13 +193,31 @@ export function DashboardComponent() {
               onClick={() => handleAgentSelect("livebook")}
             />
             <AgentCard
-              title="Playground"
-              description={locale === 'zh' ? "测试和探索AI模型的能力" : "Test and explore AI model capabilities"}
-              imageSrc="/logos/webeditor.png"
+              title={locale === 'zh' ? "翻牌问答 Flip-QA" : "Flip-QA"}
+              description={locale === 'zh' ? "测试大模型知识知多少" : "Test your knowledge about large language models"}
+              imageSrc="/logos/flipqa.png"
               bgColor={theme === 'dark' ? "bg-purple-900/30" : "bg-purple-50/80"}
               bgImage="/screenshots/qa.png"
               visits={18}
               onClick={() => handleAgentSelect("playground")}
+            />
+            <AgentCard
+              title={locale === 'zh' ? "产品经理 ChatEditor" : "ChatEditor"}
+              description={locale === 'zh' ? "指手画脚即可改这改那" : "Edit any web page with AI"}
+              imageSrc="/logos/chateditor.png"
+              bgColor={theme === 'dark' ? "bg-yellow-900/30" : "bg-yellow-50/80"}
+              bgImage="/screenshots/chateditor.gif"
+              visits={18}
+              onClick={() => handleAgentSelect("chateditor")}
+            />
+            <AgentCard
+              title={locale === 'zh' ? "Emoji 时钟锁屏" : "Emoji Clock"}
+              description={locale === 'zh' ? "仿 HarmonyOS 的互动锁屏" : "HarmonyOS-style interactive lockscreen"}
+              imageSrc="/logos/emojilock.jpg"
+              bgColor={theme === 'dark' ? "bg-red-900/30" : "bg-red-50/80"}
+              bgImage="/screenshots/emojilock.gif"
+              visits={12}
+              onClick={() => handleAgentSelect("emojilock")}
             />
           </div>
         </div>
@@ -208,7 +225,7 @@ export function DashboardComponent() {
         {/* 统计区域 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           <StatsCard
-            title={locale === 'zh' ? "活跃助手" : "ACTIVE AGENTS"}
+            title={locale === 'zh' ? "活跃Agents" : "ACTIVE AGENTS"}
             value="4"
             icon={<BrainCircuit className={theme === 'dark' ? "text-blue-400" : "text-blue-500"} />}
             bgColor={theme === 'dark' ? "bg-gray-800/80" : "bg-white/80 backdrop-blur-sm shadow-md"}
