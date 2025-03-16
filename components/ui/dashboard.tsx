@@ -264,6 +264,12 @@ export function AgentCard({
         text: 'text-white',
         stroke: theme === 'dark' ? 'stroke-white' : 'stroke-white'
       };
+    } else if (bgColor.includes('orange')) {
+      return {
+        bg: theme === 'dark' ? 'bg-orange-500' : 'bg-orange-500',
+        text: 'text-white',
+        stroke: theme === 'dark' ? 'stroke-white' : 'stroke-white'
+      };
     } else if (bgColor.includes('red')) {
       return {
         bg: theme === 'dark' ? 'bg-red-500' : 'bg-red-500',
@@ -272,7 +278,7 @@ export function AgentCard({
       };
     } else {
       return {
-        bg: theme === 'dark' ? 'bg-red-500' : 'bg-red-500',
+        bg: theme === 'dark' ? 'bg-teal-500' : 'bg-teal-500',
         text: 'text-white',
         stroke: theme === 'dark' ? 'stroke-white' : 'stroke-white'
       };

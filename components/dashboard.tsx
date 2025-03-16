@@ -17,7 +17,8 @@ import {
   Palette,
   Image as ImageIcon,
   Code2,
-  Clock
+  Clock,
+  Book
 } from "lucide-react";
 import { Dashboard as DashboardLayout, AgentCard, StatsCard, ScheduleCard } from "./ui/dashboard";
 import { HuggingDog } from "./huggingdog";
@@ -26,6 +27,7 @@ import { LiveBook } from "./livebook";
 import { InterviewCards } from "./playground/interview-cards";
 import { ChatEditor } from "./chateditor";
 import { EmojiLock } from "./emojilock";
+import { BookNote } from "./booknote";
 import { useI18n } from "@/i18n/context";
 import { motion } from "framer-motion";
 import { AvatarGroup } from "./ui/avatar-group";
@@ -33,7 +35,7 @@ import Link from "next/link";
 import { useTheme } from "@/components/theme-provider";
 
 // 定义Agent类型
-export type AgentType = "huggingdog" | "askgithub" | "livebook" | "playground" | "chateditor" | "emojilock";
+export type AgentType = "huggingdog" | "askgithub" | "livebook" | "playground" | "chateditor" | "emojilock" | "booknote";
 
 
 // 从contributors.tsx导入的贡献者数据
@@ -135,6 +137,8 @@ export function DashboardComponent() {
         return <ChatEditor />;
       case "emojilock":
         return <EmojiLock />;
+      case "booknote":
+        return <BookNote />;
       default:
         return null;
     }
@@ -202,7 +206,7 @@ export function DashboardComponent() {
               onClick={() => handleAgentSelect("playground")}
             />
             <AgentCard
-              title={locale === 'zh' ? "产品经理 ChatEditor" : "ChatEditor"}
+              title={locale === 'zh' ? "指手画脚 ChatEditor" : "ChatEditor"}
               description={locale === 'zh' ? "指手画脚即可改这改那" : "Edit any web page with AI"}
               imageSrc="/logos/chateditor.png"
               bgColor={theme === 'dark' ? "bg-yellow-900/30" : "bg-yellow-50/80"}
@@ -214,10 +218,19 @@ export function DashboardComponent() {
               title={locale === 'zh' ? "Emoji 时钟锁屏" : "Emoji Clock"}
               description={locale === 'zh' ? "仿 HarmonyOS 的互动锁屏" : "HarmonyOS-style interactive lockscreen"}
               imageSrc="/logos/emojilock.jpg"
-              bgColor={theme === 'dark' ? "bg-red-900/30" : "bg-red-50/80"}
+              bgColor={theme === 'dark' ? "bg-orange-900/30" : "bg-orange-50/80"}
               bgImage="/screenshots/emojilock.gif"
               visits={12}
               onClick={() => handleAgentSelect("emojilock")}
+            />
+            <AgentCard
+              title={locale === 'zh' ? "智能笔记 BookNote" : "BookNote-LLM"}
+              description={locale === 'zh' ? "好记性不如智能笔头" : "Remaster your notes with LLM"}
+              imageSrc="/logos/booknote.png"
+              bgColor={theme === 'dark' ? "bg-teal-900/30" : "bg-teal-50/80"}
+              bgImage="/screenshots/booknote.png"
+              visits={25}
+              onClick={() => handleAgentSelect("booknote")}
             />
           </div>
         </div>
