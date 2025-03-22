@@ -113,6 +113,11 @@ export function DashboardComponent() {
 
   // 处理页面切换
   const handlePageChange = useCallback((page: string) => {
+    if (page === "profile") {
+      window.location.href = "/profile";
+      return;
+    }
+    
     setActivePage(page);
     setActiveAgent(null);
   }, []);

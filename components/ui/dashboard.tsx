@@ -85,7 +85,18 @@ export function Dashboard({
     home: locale === 'zh' ? '首页' : 'Home',
     stats: locale === 'zh' ? '统计' : 'Statistics',
     calendar: locale === 'zh' ? '日历' : 'Calendar',
-    profile: locale === 'zh' ? '个人资料' : 'Profile'
+    profile: locale === 'zh' ? '个人' : 'Profile',
+    settings: locale === 'zh' ? '设置' : 'Settings'
+  };
+
+  // 导航到主页
+  const goToHome = () => {
+    window.location.href = "/";
+  };
+
+  // 导航到个人页面
+  const goToProfile = () => {
+    window.location.href = "/profile";
   };
 
   return (
@@ -95,8 +106,8 @@ export function Dashboard({
         <div className={`w-24 h-[85%] ${theme === 'dark' ? 'bg-gray-800/90' : 'bg-white/90'} backdrop-blur-sm flex flex-col items-center py-8 rounded-r-3xl shadow-xl ${theme === 'dark' ? 'shadow-gray-900/50 border-gray-700' : 'shadow-gray-200/50 border-gray-100'} border-r border-t border-b`}>
           {/* 修改布局结构，将Logo移到顶部 */}
           <div className="w-full flex flex-col items-center">
-            {/* Logo - 移到顶部 */}
-            <div className="mb-8">
+            {/* Logo - 移到顶部，添加点击事件 */}
+            <div className="mb-8 cursor-pointer" onClick={goToHome}>
               <div className="flex flex-col items-center">
                 <Image
                   src="/logos/icon.jpg"
@@ -106,7 +117,7 @@ export function Dashboard({
                   className="rounded-full shadow-md"
                 />
                 <div className={`text-xs font-medium mt-2 text-center ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
-                  <div>abab.ai</div>
+                  <div><b>abab.ai</b></div>
                 </div>
               </div>
             </div>
@@ -118,7 +129,7 @@ export function Dashboard({
               <SidebarIcon
                 icon={Home}
                 active={activePage === "home"}
-                onClick={() => onPageChange("home")}
+                onClick={goToHome}
                 tooltip={menuTooltips.home}
               />
               <SidebarIcon
@@ -136,18 +147,21 @@ export function Dashboard({
               <SidebarIcon
                 icon={User}
                 active={activePage === "profile"}
-                onClick={() => onPageChange("profile")}
+                onClick={goToProfile}
                 tooltip={menuTooltips.profile}
               />
             </div>
           </div>
 
-          {/* 底部头像区域 */}
+          {/* 底部头像区域 - 添加点击事件 */}
           <div className="mt-auto flex flex-col items-center space-y-4">
             {/* 用户头像 */}
-            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 shadow-md">
+            <div 
+              className="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-200 shadow-md cursor-pointer"
+              onClick={goToProfile}
+            >
               <Image
-                src="/logos/abab.jpg"
+                src="/avatars/myself.jpeg"
                 alt="User"
                 width={48}
                 height={48}
