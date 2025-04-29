@@ -181,7 +181,7 @@ export function DashboardComponent() {
               bgColor={theme === 'dark' ? "bg-blue-900/30" : "bg-blue-50/80"}
               bgImage="/screenshots/huggingdog.png"
               visits={20}
-              onClick={() => handleAgentSelect("huggingdog")}
+              onClick={() => window.location.href = "https://www.gamifyai.ai" }
             />
             <AgentCard
               title={locale === 'zh' ? "问问GitHub" : "AskGitHub"}
