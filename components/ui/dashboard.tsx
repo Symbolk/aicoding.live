@@ -290,6 +290,12 @@ export function AgentCard({
         text: 'text-white',
         stroke: theme === 'dark' ? 'stroke-white' : 'stroke-white'
       };
+    } else if (bgColor.includes('indigo')) {
+        return {
+          bg: theme === 'dark' ? 'bg-pink-500' : 'bg-pink-500',
+          text: 'text-white',
+          stroke: theme === 'dark' ? 'stroke-white' : 'stroke-white'
+        }; 
     } else {
       return {
         bg: theme === 'dark' ? 'bg-teal-500' : 'bg-teal-500',

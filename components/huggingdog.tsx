@@ -236,6 +236,9 @@ export function HuggingDog() {
       ])
 
       console.log('Fetched papers:', papersResponse)
+      console.log('Fetched models:', models)
+      console.log('Fetched datasets:', datasets)
+      console.log('Fetched spaces:', spaces)
       setPapers(papersResponse.items)
 
       setStats({

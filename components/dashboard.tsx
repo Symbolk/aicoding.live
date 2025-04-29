@@ -18,7 +18,8 @@ import {
   Image as ImageIcon,
   Code2,
   Clock,
-  Book
+  Book,
+  GamepadIcon
 } from "lucide-react";
 import { Dashboard as DashboardLayout, AgentCard, StatsCard, ScheduleCard } from "./ui/dashboard";
 import { HuggingDog } from "./huggingdog";
@@ -28,6 +29,7 @@ import { InterviewCards } from "./playground/interview-cards";
 import { ChatEditor } from "./chateditor";
 import { EmojiLock } from "./emojilock";
 import { BookNote } from "./booknote";
+import { GameBuddy } from "./gamebuddy";
 import { useI18n } from "@/i18n/context";
 import { motion } from "framer-motion";
 import { AvatarGroup } from "./ui/avatar-group";
@@ -35,7 +37,7 @@ import Link from "next/link";
 import { useTheme } from "@/components/theme-provider";
 
 // 定义Agent类型
-export type AgentType = "huggingdog" | "askgithub" | "livebook" | "playground" | "chateditor" | "emojilock" | "booknote";
+export type AgentType = "huggingdog" | "askgithub" | "livebook" | "playground" | "chateditor" | "emojilock" | "booknote" | "gamebuddy";
 
 
 // 从contributors.tsx导入的贡献者数据
@@ -144,6 +146,8 @@ export function DashboardComponent() {
         return <EmojiLock />;
       case "booknote":
         return <BookNote />;
+      case "gamebuddy":
+        return <GameBuddy />;
       default:
         return null;
     }
@@ -236,6 +240,15 @@ export function DashboardComponent() {
               bgImage="/screenshots/booknote.png"
               visits={25}
               onClick={() => handleAgentSelect("booknote")}
+            />
+            <AgentCard
+              title={locale === 'zh' ? "搭子 GameBuddy" : "GameBuddy"}
+              description={locale === 'zh' ? "I人的线下游戏AI辅助" : "Werewolf game AI assistants"}
+              imageSrc="/screenshots/dazi.png"
+              bgColor={theme === 'dark' ? "bg-indigo-900/30" : "bg-indigo-50/80"}
+              bgImage="/screenshots/dazi.gif"
+              visits={37}
+              onClick={() => handleAgentSelect("gamebuddy")}
             />
           </div>
         </div>
@@ -339,10 +352,10 @@ export function DashboardComponent() {
                 <Star className="text-blue-500" />
               </div>
             </div>
-            <h3 className="text-lg font-semibold text-center mb-2">{locale === 'zh' ? '升级到高级版获取更多功能' : 'Get more functions with Premium'}</h3>
+            <h3 className="text-lg font-semibold text-center mb-2">{locale === 'zh' ? '每一个小点子都值得发光' : 'Every spark lights the sky'}</h3>
             <div className="flex justify-center mt-4">
               <button className={`bg-white ${theme === 'dark' ? 'text-blue-800' : 'text-blue-500'} px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1 shadow-md`}>
-                <span>+</span> {locale === 'zh' ? '购买高级版' : 'Buy Premium'}
+                <span>+</span> {locale === 'zh' ? '易燃易爆炸' : 'Keep Shinining'}
               </button>
             </div>
           </motion.div>
