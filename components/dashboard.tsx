@@ -189,7 +189,7 @@ export function DashboardComponent() {
             />
             <AgentCard
               title={locale === 'zh' ? "问问GitHub" : "AskGitHub"}
-              description={locale === 'zh' ? "搜索和分析GitHub代码库" : "Search and analyze GitHub repositories"}
+              description={locale === 'zh' ? "语义化搜索你想要的开源项目" : "Semantically Search GitHub repositories"}
               imageSrc="/logos/askgithub.svg"
               bgColor={theme === 'dark' ? "bg-gray-800/30" : "bg-gray-50/80"}
               bgImage="/screenshots/askgithub.png"
@@ -198,7 +198,7 @@ export function DashboardComponent() {
             />
             <AgentCard
               title={locale === 'zh' ? "活书 LiveBook" : "LiveBook"}
-              description={locale === 'zh' ? "智能文档，支持实时交互和反馈" : "Smart documents with real-time interaction"}
+              description={locale === 'zh' ? "一本书或一段话产生交互式剧本" : "Smart documents with real-time interaction"}
               imageSrc="/logos/livebook.png"
               bgColor={theme === 'dark' ? "bg-green-900/30" : "bg-green-50/80"}
               bgImage="/screenshots/livebook.png"
@@ -207,7 +207,7 @@ export function DashboardComponent() {
             />
             <AgentCard
               title={locale === 'zh' ? "翻牌问答 Flip-QA" : "Flip-QA"}
-              description={locale === 'zh' ? "测试大模型知识知多少" : "Test your knowledge about large language models"}
+              description={locale === 'zh' ? "每天随机复习下大模型知识" : "Test your knowledge about large language models"}
               imageSrc="/logos/flipqa.png"
               bgColor={theme === 'dark' ? "bg-purple-900/30" : "bg-purple-50/80"}
               bgImage="/screenshots/qa.png"
@@ -233,7 +233,7 @@ export function DashboardComponent() {
               onClick={() => handleAgentSelect("emojilock")}
             />
             <AgentCard
-              title={locale === 'zh' ? "智能笔记 BookNote" : "BookNote-LLM"}
+              title={locale === 'zh' ? "书记 BookNote" : "BookNote-LLM"}
               description={locale === 'zh' ? "好记性不如智能笔头" : "Remaster your notes with LLM"}
               imageSrc="/logos/booknote.png"
               bgColor={theme === 'dark' ? "bg-teal-900/30" : "bg-teal-50/80"}
@@ -257,13 +257,13 @@ export function DashboardComponent() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
           <StatsCard
             title={locale === 'zh' ? "活跃Agents" : "ACTIVE AGENTS"}
-            value="4"
+            value="8"
             icon={<BrainCircuit className={theme === 'dark' ? "text-blue-400" : "text-blue-500"} />}
             bgColor={theme === 'dark' ? "bg-gray-800/80" : "bg-white/80 backdrop-blur-sm shadow-md"}
           />
           <StatsCard
             title={locale === 'zh' ? "总交互次数" : "TOTAL INTERACTIONS"}
-            value="1250"
+            value="1276"
             icon={<MessageSquare className={theme === 'dark' ? "text-green-400" : "text-green-500"} />}
             bgColor={theme === 'dark' ? "bg-gray-800/80" : "bg-white/80 backdrop-blur-sm shadow-md"}
           />
@@ -352,10 +352,10 @@ export function DashboardComponent() {
                 <Star className="text-blue-500" />
               </div>
             </div>
-            <h3 className="text-lg font-semibold text-center mb-2">{locale === 'zh' ? '每一个小点子都值得发光' : 'Every spark lights the sky'}</h3>
+            <h3 className="text-lg font-semibold text-center mb-2">{locale === 'zh' ? '每一个小点子都值得闪闪发光' : 'Every spark lights the sky'}</h3>
             <div className="flex justify-center mt-4">
               <button className={`bg-white ${theme === 'dark' ? 'text-blue-800' : 'text-blue-500'} px-4 py-1 rounded-full text-sm font-medium flex items-center gap-1 shadow-md`}>
-                <span>+</span> {locale === 'zh' ? '易燃易爆炸' : 'Keep Shinining'}
+                <span>+</span> {locale === 'zh' ? '新建IDEA' : 'What`s up today?'}
               </button>
             </div>
           </motion.div>
